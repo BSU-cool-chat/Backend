@@ -24,7 +24,7 @@ public class UsersController {
     }
 
     @GetMapping("/{id}")
-    public String show(@PathVariable("id") long id, Model model) {
+    public String show(@PathVariable("id") int id, Model model) {
         model.addAttribute("user", userDAO.getUser(id));
         return "users/show";
     }

@@ -1,35 +1,49 @@
 package project.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import project.models.User;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Component
 public class UserDAO {
-    private static long user_count;
-    private List<User> users;
+    private final JdbcTemplate jdbcTemplate;
 
-    {
-        users = new ArrayList<User>();
-        users.add(new User(user_count++, "Admin", "1111"));
-        users.add(new User(user_count++, "LOL", "parolol"));
-        users.add(new User(user_count++, "KEK", "parolkek"));
+    @Autowired
+    public UserDAO(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     public List<User> getUsers() {
-        return users;
+        return jdbcTemplate.query("SELECT * FROM users", new UserMapper());
+//        return jdbcTemplate.query("SELECT * FROM users", new BeanPropertyRowMapper<>(User.class));
     }
 
-    public User getUser(long id) {
-        return users.stream().filter(user -> user.getId() == id).findAny().orElse(null);
+    public User getUser(int id) {
+        return jdbcTemplate.query("SELECT * FROM users WHERE id=?", new Object[]{id}, new UserMapper())
+                .stream()
+                .findAny()
+                .orElse(null);
+//                .orElse(new Error(id + "not found"));
     }
 
     public void addUser(User user) {
-        user.setId(user_count++);
-        users.add(user);
+        if (jdbcTemplate.query("SELECT * FROM users WHERE login=?",
+                new Object[]{user.getLogin()},
+                new UserMapper()).stream().findAny().isPresent()) {
+            throw new RuntimeException("user with login \"" + user.getLogin() + "\" already exists");
+        }
+        jdbcTemplate.update("INSERT INTO users(login, password) VALUES (?, ?);",user.getLogin(), user.getPassword());
+    }
+
+    public void updateUser(User user) {
+        jdbcTemplate.update("UPDATE users SET login=?, password=? WHERE id=?",
+                user.getLogin(),
+                user.getPassword(),
+                user.getId());
     }
 
     public Optional<Integer> getUserId(String login, String password) {
