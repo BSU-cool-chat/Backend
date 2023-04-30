@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import project.models.User;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class UserDAO {
@@ -45,4 +46,10 @@ public class UserDAO {
                 user.getId());
     }
 
+    public Optional<Integer> getUserId(String login, String password) {
+        var searching_user = getUsers().stream()
+                .filter(user -> user.getLogin().equals(login) && user.getPassword().equals(password))
+                .findAny();
+        return searching_user.map(user -> Math.toIntExact(user.getId()));
+    }
 }
