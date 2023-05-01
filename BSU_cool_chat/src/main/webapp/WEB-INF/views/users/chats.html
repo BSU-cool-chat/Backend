@@ -1,0 +1,22 @@
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All messages</title>
+</head>
+<body>
+<center>
+    <p>List of all messages</p>
+</center>
+<hr>
+<center>
+    <div th:each="chat_info : ${chats_info}">
+        <a th:href="@{/users/{id}(id=${chat_info.getInterlocutor()})}"><span th:text="${chat_info.getInterlocutorLogin()}">id</span></a>
+        <p th:text="${chat_info.getText()}">Message</p>
+        <p>Sent at <span th:text="${chat_info.getDate()}">Date</span> <span th:text="${chat_info.getTime()}">Time</span></p>
+        <a th:href="@{messages/chat/${id}/{id2}(id2=${chat_info.getSenderId()})}">Chat</a>
+        <hr>
+    </div>
+</center>
+
+</body>
+</html>

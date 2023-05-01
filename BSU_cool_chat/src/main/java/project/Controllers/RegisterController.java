@@ -6,16 +6,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import project.dao.User.UserDAO;
+import project.dao.User.UserService;
 import project.models.User;
 
 @Controller
 public class RegisterController {
-    private UserDAO userDAO;
+    private UserService userService;
 
     @Autowired
-    public RegisterController(UserDAO userDAO) {
-        this.userDAO = userDAO;
+    public RegisterController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping("/enter")
@@ -26,7 +26,7 @@ public class RegisterController {
 
     @PostMapping("/log_in")
     public String LogIn(@ModelAttribute("user") User user) {
-        var id = userDAO.getUserId(user.getLogin(), user.getPassword());
-        return id.map(integer -> "redirect:/users/" + integer).orElse("redirect:/enter");
+        var id = userService.getUserId(user.getLogin(), user.getPassword());
+        return id.map(integer -> "redirect:/chats/" + integer).orElse("redirect:/enter");
     }
 }

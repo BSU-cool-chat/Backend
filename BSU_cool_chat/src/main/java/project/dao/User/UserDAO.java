@@ -20,16 +20,16 @@ public class UserDAO implements UserService {
 
     @PostConstruct
     void postConstruct() {
-        jdbcTemplate.update("CREATE TABLE IF NOT EXISTS users(id SERIAL PRIMARY KEY, login varchar, password varchar)");
+        jdbcTemplate.update("CREATE TABLE IF NOT EXISTS users(id SERIAL PRIMARY KEY, login varchar, password varchar);");
     }
 
     public List<User> getAllUsers() {
-        return jdbcTemplate.query("SELECT * FROM users", new UserMapper());
+        return jdbcTemplate.query("SELECT * FROM users;", new UserMapper());
 //        return jdbcTemplate.query("SELECT * FROM users", new BeanPropertyRowMapper<>(User.class));
     }
 
     public void createUser(User user) {
-        if (jdbcTemplate.query("SELECT * FROM users WHERE login=?",
+        if (jdbcTemplate.query("SELECT * FROM users WHERE login=?;",
                 new Object[]{user.getLogin()},
                 new UserMapper()).stream().findAny().isPresent()) {
             throw new RuntimeException("user with login \"" + user.getLogin() + "\" already exists");
@@ -42,7 +42,7 @@ public class UserDAO implements UserService {
     }
 
     public void updateUser(User user) {
-        jdbcTemplate.update("UPDATE users SET login=?, password=? WHERE id=?",
+        jdbcTemplate.update("UPDATE users SET login=?, password=? WHERE id=?;",
                 user.getLogin(),
                 user.getPassword(),
                 user.getId());

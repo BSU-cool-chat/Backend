@@ -4,28 +4,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import project.dao.User.UserDAO;
+import project.dao.User.UserService;
 import project.models.User;
 
 @Controller
 @RequestMapping("/users")
 public class UsersController {
-    private UserDAO userDAO;
+    private UserService userService;
 
     @Autowired
-    public UsersController(UserDAO userDAO) {
-        this.userDAO = userDAO;
+    public UsersController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping()
     public String index(Model model) {
-        model.addAttribute("users", userDAO.getAllUsers());
+        model.addAttribute("users", userService.getAllUsers());
         return "users/index";
     }
 
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model) {
-        model.addAttribute("user", userDAO.getById(id));
+        model.addAttribute("user", userService.getById(id));
         return "users/show";
     }
 
@@ -37,7 +37,7 @@ public class UsersController {
 
     @PostMapping()
     public String create(@ModelAttribute("user") User user) {
-        userDAO.createUser(user);
+        userService.createUser(user);
         return "redirect:/users";
     }
 }
