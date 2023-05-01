@@ -3,6 +3,7 @@
 *.war
 *.ear
 .idea/*
+*web.xml
 
 target/
 !.mvn/wrapper/maven-wrapper.jar
