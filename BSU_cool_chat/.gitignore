@@ -1,10 +1,8 @@
-*.xml
 **/log.txt
 *.jar
 *.war
 *.ear
-BSU_cool_chat/.idea/.gitignore
-.idea/.gitignore
+.idea/*
 
 target/
 !.mvn/wrapper/maven-wrapper.jar

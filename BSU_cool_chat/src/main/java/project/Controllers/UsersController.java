@@ -19,13 +19,13 @@ public class UsersController {
 
     @GetMapping()
     public String index(Model model) {
-        model.addAttribute("users", userDAO.getUsers());
+        model.addAttribute("users", userDAO.getAllUsers());
         return "users/index";
     }
 
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model) {
-        model.addAttribute("user", userDAO.getUser(id));
+        model.addAttribute("user", userDAO.getById(id));
         return "users/show";
     }
 
@@ -37,7 +37,7 @@ public class UsersController {
 
     @PostMapping()
     public String create(@ModelAttribute("user") User user) {
-        userDAO.addUser(user);
+        userDAO.createUser(user);
         return "redirect:/users";
     }
 }
