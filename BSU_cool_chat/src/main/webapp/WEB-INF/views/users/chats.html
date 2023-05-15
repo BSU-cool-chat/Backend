@@ -2,19 +2,80 @@
 <head>
     <meta charset="UTF-8">
     <title>All messages</title>
+    <style>
+        body {
+            /*background-image: url(../img/fon1.jpg);*/
+            font-family: 'Arial', serif;
+            color: #0096cd;
+        }
+
+        .options {
+            display: flex;
+            /*justify-content: space-between;*/
+            justify-content: center;
+        }
+
+        div.greeting {
+            text-align: center;
+            font-size: 20pt;
+        }
+
+        form.form {
+            padding-right: 10px;
+            padding-left: 10px;
+        }
+
+        div.chat {
+            background-color: rgba(245, 245, 245, 0.97);
+            border: 2px solid #696969;
+            padding-top: 2%;
+            margin: 2%;
+            font-size: 20pt;
+        }
+
+        input.button {
+            width: 110px;
+            height: 50px;
+            padding: 10px;
+            border: none;
+            box-shadow: inset -3px -3px 10px 3px #01A9DB;
+            background: #A9E2F3;
+            border-radius: 30px;
+        }
+
+        input.button:hover {
+            background: #078ab0;
+            box-shadow: inset -3px -3px 10px 3px #0f228f;
+            color: #E0F8F7;
+        }
+    </style>
 </head>
 <body>
+<div class="greeting">
+    <center>
+        <h1>Chats</h1>
+    </center>
+</div>
+<div class="options">
+    <form class="form" th:method="GET" th:action="@{menu/todo}">
+        <input class="button" type="submit" value="Menu"/>
+    </form>
+    <form class="form" th:method="GET" th:action="@{search/todo}">
+        <input class="button" type="submit" value="Search"/>
+    </form>
+</div>
 <center>
-    <p>List of all messages</p>
-</center>
-<hr>
-<center>
-    <div th:each="chat_info : ${chats_info}">
-        <a th:href="@{/users/{id}(id=${chat_info.getInterlocutor()})}"><span th:text="${chat_info.getInterlocutorLogin()}">id</span></a>
-        <p th:text="${chat_info.getText()}">Message</p>
-        <p>Sent at <span th:text="${chat_info.getDate()}">Date</span> <span th:text="${chat_info.getTime()}">Time</span></p>
-        <a th:href="@{messages/chat/${id}/{id2}(id2=${chat_info.getSenderId()})}">Chat</a>
-        <hr>
+    <div class="chat" th:each="chat_info : ${chats_info}">
+        <form th:method="GET" th:action="@{messages/chat/${id}/{id2}(id2=${chat_info.getSenderId()})}">
+
+            <a th:href="@{/users/{id}(id=${chat_info.getInterlocutor()})}"><span
+                    th:text="${chat_info.getInterlocutorLogin()}">id</span></a>
+            <p><span th:text="${chat_info.getSenderLogin()}">Sender</span>: <span th:text="${chat_info.getText()}">Message</span>
+            <p>Sent at <span th:text="${chat_info.getDate()}">Date</span> <span
+                    th:text="${chat_info.getTime()}">Time</span>
+            </p>
+            <input class="button" type="submit" value="Go to chat"/>
+        </form>
     </div>
 </center>
 
