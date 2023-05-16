@@ -3,6 +3,7 @@ package project.dao.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import project.dao.Chat.ChatMapper;
 import project.models.User;
 
 import javax.annotation.PostConstruct;
@@ -61,5 +62,18 @@ public class UserDAO implements UserService {
                 .filter(user -> user.getLogin().equals(login) && user.getPassword().equals(password))
                 .findAny();
         return searching_user.map(user -> Math.toIntExact(user.getId()));
+    }
+
+    @Override
+    public List<User> getAllChatMembers(int chat_id) {
+        var members = jdbcTemplate.query(
+                """
+                        SELECT member_id AS id, login, password
+                        FROM chats_members
+                                INNER JOIN users ON member_id = users.id
+                        WHERE chat_id = ?;""",
+                new UserMapper(),
+                chat_id).stream().toList();
+        return members;
     }
 }
