@@ -21,7 +21,7 @@ public class RegisterController {
     @GetMapping("/enter")
     public String GreetingPage(Model model) {
         model.addAttribute("user", new User());
-        return "registration/register_page";
+        return "registration/login_page";
     }
 
     @PostMapping("/log_in")
