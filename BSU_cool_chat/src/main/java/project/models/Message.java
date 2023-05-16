@@ -1,42 +1,35 @@
 package project.models;
 
+import java.sql.Time;
 import java.util.Date;
 
 public class Message {
     private int id;
-    private int senderId;
-    private int receiverId;
+    private User sender;
+    private int chatId;
     private String text;
-    Date dispatchTime;
+    private Date dispatchDate;
+    private Time dispatchTime;
 
-    public Message() {
-//        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-d HH:mm:ss");
-//        String date = dateFormat.format(new Date());
-        dispatchTime = new Date();
+    public Message(int id, User sender, int chatId, String text, Date dispatchDate, Time dispatchTime) {
+        this.id = id;
+        this.sender = sender;
+        this.chatId = chatId;
+        this.text = text;
+        this.dispatchDate = dispatchDate;
+        this.dispatchTime = dispatchTime;
     }
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public User getSender() {
+        return sender;
     }
 
-    public int getSenderId() {
-        return senderId;
-    }
-
-    public void setSenderId(int senderId) {
-        this.senderId = senderId;
-    }
-
-    public int getReceiverId() {
-        return receiverId;
-    }
-
-    public void setReceiverId(int receiverId) {
-        this.receiverId = receiverId;
+    public int getChatId() {
+        return chatId;
     }
 
     public String getText() {
@@ -47,11 +40,11 @@ public class Message {
         this.text = text;
     }
 
-    public Date getDispatchTime() {
-        return dispatchTime;
+    public Date getDispatchDate() {
+        return dispatchDate;
     }
 
-    public void setDispatchTime(Date dispatchTime) {
-        this.dispatchTime = dispatchTime;
+    public Time getDispatchTime() {
+        return dispatchTime;
     }
 }
