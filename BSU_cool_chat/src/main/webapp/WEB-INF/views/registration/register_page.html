@@ -22,9 +22,6 @@
         }
 
         div.options {
-            /*display: flex;*/
-            /*align-items: center;*/
-            /*justify-content: center;*/
             text-align: center;
             background-color: rgba(245, 245, 245, 0.97);
             border: 2px solid #696969;
@@ -43,7 +40,7 @@
             color: black;
         }
 
-        div.link {
+        div.button {
             margin-left: 20%;
             margin-right: 20%;
             margin-top: 20px;
@@ -53,9 +50,10 @@
             box-shadow: inset -3px -3px 10px 3px #01A9DB;
             background: #A9E2F3;
             text-align: center;
+            border-radius: 30px;
         }
 
-        input.link {
+        input.button {
             /*margin-left: 20%;*/
             /*margin-right: 10%;*/
             margin-top: 20px;
@@ -67,20 +65,21 @@
             background: #A9E2F3;
             text-align: center;
             font-size: 12pt;
+            border-radius: 30px;
         }
 
         input.value {
             width: calc(50%);
         }
 
-        div.link:hover {
+        div.button:hover {
             background: #078ab0;
             box-shadow: inset -3px -3px 10px 3px #0f228f;
             color: #E0F8F7;
         }
 
 
-        input.link:hover {
+        input.button:hover {
             background: #078ab0;
             box-shadow: inset -3px -3px 10px 3px #0f228f;
             color: #E0F8F7;
@@ -108,10 +107,10 @@
             <br>
             <input class="value" type="password" th:field="*{password}" id="password"/>
             <br>
-            <input class="link" type="submit" value="Log in!"/><br>
+            <input class="button" type="submit" value="Log in!"/><br>
         </form>
         <hr>
-        <div class="link">
+        <div class="button">
             <a href="/users/new"><p>Don't have an account?<br> Create one</p></a>
         </div>
     </div>
