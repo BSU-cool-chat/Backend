@@ -20,8 +20,8 @@ public class ChatsController {
 
     @GetMapping("/chats/{receiver_id}")
     public String displayAllUsersMessages(@PathVariable("receiver_id") int user_id, Model model) {
-        model.addAttribute("chats", chatService.getAllUsersChatsInfo(user_id));
+        model.addAttribute("chats_info", chatService.getAllUsersChatsInfo(user_id));
         model.addAttribute("id", user_id);
-        return "users/chats2";
+        return "users/chats";
     }
 }
