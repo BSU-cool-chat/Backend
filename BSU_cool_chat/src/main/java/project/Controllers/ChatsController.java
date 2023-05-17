@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import project.dao.Chat.ChatService;
 
+import java.util.Date;
+
 @Controller
 public class ChatsController {
     private ChatService chatService;
@@ -17,10 +19,9 @@ public class ChatsController {
     }
 
     @GetMapping("/chats/{receiver_id}")
-    public String displayAllUsersMessages(@PathVariable("receiver_id") int id, Model model) {
-        model.addAttribute("chats_info",
-                chatService.getAllChatsInfo(id));
-        model.addAttribute("id", id);
+    public String displayAllUsersMessages(@PathVariable("receiver_id") int user_id, Model model) {
+        model.addAttribute("chats_info", chatService.getAllUsersChatsInfo(user_id));
+        model.addAttribute("id", user_id);
         return "users/chats";
     }
 }

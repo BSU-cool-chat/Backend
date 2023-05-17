@@ -10,14 +10,16 @@ import java.sql.SQLException;
 public class MessageMapper implements RowMapper<Message> {
     @Override
     public Message mapRow(ResultSet resultSet, int rowNumber) throws SQLException {
-        Message message = new Message();
+        User sender = new User(
+                resultSet.getInt("sender_id"),
+                resultSet.getString("sender_login"),
+                resultSet.getString("sender_password"));
 
-        message.setId(resultSet.getInt("id"));
-        message.setSenderId(resultSet.getInt("sender_id"));
-        message.setReceiverId(resultSet.getInt("receiver_id"));
-        message.setText(resultSet.getString("text"));
-        message.setDispatchTime(resultSet.getDate("dispatch_time"));
-
-        return message;
+        return new Message(resultSet.getInt("id"),
+                sender,
+                resultSet.getInt("chat_id"),
+                resultSet.getString("text"),
+                resultSet.getDate("dispatch_time"),
+                resultSet.getTime("dispatch_time"));
     }
 }
