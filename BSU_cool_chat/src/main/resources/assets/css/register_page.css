@@ -47,36 +47,24 @@
     border-color: #fb5a5a;
     border-width: 1px;
 }
-.home-button {
-    color: white;
-    width: 133px;
-    height: 42px;
-    font-size: 17px;
-    align-self: flex-end;
-    box-shadow: 5px 5px 10px 0px #edbdbd;
-    font-style: italic;
-    text-align: left;
-    transition: 0.3s;
-    font-family: Inter;
-    font-weight: 400;
-    border-color: #ffffff;
-    border-style: solid;
-    border-width: 2px;
-    letter-spacing: 1px;
-    text-transform: capitalize;
-    background-color: rgb(0, 111, 255);
-}
-.home-button:hover {
-    width: 126px;
-    height: 39px;
-    box-shadow: 5px 5px 10px 0px #f14f4f;
-}
-.home-button:active {
+
+input.button {
     width: 110px;
-    height: 34px;
-    box-shadow: 5px 5px 10px 0px #d88b8b;
-    border-color: #060505;
+    height: 50px;
+    padding: 10px;
+    border: none;
+    align-self: flex-end;
+    box-shadow: inset -3px -3px 10px 3px #01A9DB;
+    background: #A9E2F3;
+    border-radius: 30px;
 }
+
+input.button:hover {
+    background: #078ab0;
+    box-shadow: inset -3px -3px 10px 3px #0f228f;
+    color: #E0F8F7;
+}
+
 .home-text {
     top: 140px;
     left: 0px;
