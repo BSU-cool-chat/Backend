@@ -1,0 +1,32 @@
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<meta http-equiv="refresh" content="20">
+<head>
+    <meta charset="UTF-8">
+    <title>Search</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/chats.css}"/>
+</head>
+<body>
+<div class="greeting">
+    <center>
+        <h1>Search</h1>
+    </center>
+</div>
+<div class="options">
+    <form class="form" th:method="GET" th:action="@{/chats/__${user_id}__}">
+        <input class="button" type="submit" value="Chats"/>
+    </form>
+</div>
+<center>
+    <form th:method="GET" th:action="@{/users/search/__${user_id}__}" th:object="${searching_user}">
+        <input type="text" th:field="*{login}" id="login"/>
+        <input type="submit" value="Search"/>
+    </form>
+</center>
+<center>
+    <div th:each="found_user : ${found_users}">
+        <a th:href="@{/users/__${found_user.getId()}__}" th:text="${found_user.getLogin()}">user</a>
+    </div>
+</center>
+
+</body>
+</html>

@@ -76,4 +76,16 @@ public class UserDAO implements UserService {
                 chat_id).stream().toList();
         return members;
     }
+
+    @Override
+    public List<User> getAllSimilarUsers(String searching_login) {
+        var found_users = jdbcTemplate.query(
+                """
+                        SELECT *
+                        FROM users
+                        WHERE LOWER(login) LIKE '%' || (LOWER(?)) || '%';""",
+                new UserMapper(),
+                searching_login).stream().toList();
+        return found_users;
+    }
 }

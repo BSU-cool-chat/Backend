@@ -20,4 +20,5 @@ public interface UserService {
     Optional<Integer> getUserId(String login, String password);
 
     List<User> getAllChatMembers(int chat_id);
+    List<User> getAllSimilarUsers(String searching_login);
 }
