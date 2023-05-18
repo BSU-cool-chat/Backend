@@ -2,21 +2,31 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>New user</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/assets/css/register_page.css}" />
 </head>
 <body>
-
 <form th:method="POST" th:action="@{/users}" th:object="${user}">
-  <label for="login">Enter login: </label>
-  <input type="text" th:field="*{login}" id="login"/>
-  <br>
-  <label for="password">Enter password: </label>
-  <input type="text" th:field="*{password}" id="password"/>
-  <br/>
-  <input type="submit" value="Create!"/>
+  <div class="home-container">
+    <div class="home-container1">
+      <input
+              type="text"
+              placeholder="login"
+              name="login"
+              class="home-login input"
+              th:field="*{login}"
+      />
+      <input
+              type="text"
+              placeholder="password"
+              name="password"
+              class="home-password input"
+              th:field="*{password}"
+      />
+      <input class="button" type="submit" value="Create"/>
+    </div>
+    <h1 class="home-text">BSU cool chat</h1>
+  </div>
 </form>
 
-<br>
-<a href="/users">All users</a>
 </body>
 </html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/login_page.css}" />
+    <title>Registration</title>
+</head>
+<body>
+<center>
+    <div class="options">
+        <div class="greeting">
+            <h2>BSU cool chat</h2>
+        </div>
+        <form th:method="POST" th:action="@{/log_in}" th:object="${user}">
+            <label for="login">Login</label>
+            <br>
+            <input class="value" type="text" th:field="*{login}" id="login"/>
+            <br>
+            <label for="password">Password</label>
+            <br>
+            <input class="value" type="password" th:field="*{password}" id="password"/>
+            <br>
+            <input class="button" type="submit" value="Log in!"/><br>
+        </form>
+        <hr>
+        <div class="button">
+            <a href="/users/new"><p>Don't have an account?<br> Create one</p></a>
+        </div>
+    </div>
+</center>
+
+</body>
+</html>

@@ -1,0 +1,79 @@
+.home-container {
+    width: 100%;
+    display: flex;
+    overflow: auto;
+    min-height: 100vh;
+    align-items: center;
+    flex-direction: column;
+}
+.home-container1 {
+    gap: 32px;
+    top: 330px;
+    flex: 0;
+    left: 0px;
+    right: 0px;
+    width: 394px;
+    margin: auto;
+    display: flex;
+    position: absolute;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.home-login {
+    width: 270px;
+    height: 40px;
+    box-shadow: 5px 5px 10px 0px #5772ff,5px 5px 10px 0px #d4d4d4;
+    transition: 0.3s;
+    border-color: #0949f9;
+    border-width: 2px;
+}
+.home-login:focus {
+    box-shadow: 5px 5px 10px 0px #8293f3,5px 5px 10px 0px #d4d4d4;
+    border-color: #fb5a5a;
+    border-width: 1px;
+}
+.home-password {
+    width: 270px;
+    height: 40px;
+    z-index: 100;
+    box-shadow: 5px 5px 10px 0px #5772ff,5px 5px 10px 0px #d4d4d4;
+    transition: 0.3s;
+    border-color: #0949f9;
+    border-width: 2px;
+}
+.home-password:focus {
+    box-shadow: 5px 5px 10px 0px #d4d4d4,5px 5px 10px 0px #5772ff;
+    border-color: #fb5a5a;
+    border-width: 1px;
+}
+
+input.button {
+    width: 110px;
+    height: 50px;
+    padding: 10px;
+    border: none;
+    align-self: flex-end;
+    box-shadow: inset -3px -3px 10px 3px #01A9DB;
+    background: #A9E2F3;
+    border-radius: 30px;
+}
+
+input.button:hover {
+    background: #078ab0;
+    box-shadow: inset -3px -3px 10px 3px #0f228f;
+    color: #E0F8F7;
+}
+
+.home-text {
+    top: 140px;
+    left: 0px;
+    color: #2d59ff;
+    right: 64px;
+    width: 962px;
+    height: 112px;
+    margin: auto;
+    position: absolute;
+    font-size: 5em;
+    text-align: center;
+}
