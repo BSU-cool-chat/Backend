@@ -39,16 +39,17 @@ public class MessageDAO implements MessageService {
                          users.id AS sender_id, login AS sender_login, password AS sender_password
                         FROM messages
                             INNER JOIN users ON sender_id = users.id
-                        WHERE chat_id = ?;""",
+                        WHERE chat_id = ?
+                        ORDER BY dispatch_time ASC;""",
                 new MessageMapper(),
                 chat_id).stream().toList();
     }
 
-//    @Override
-//    public void createMessage(Message message) {
-//        jdbcTemplate.update("INSERT INTO messages(sender_id, chat_id, text, dispatch_time) VALUES (?, ?, ?, now());",
-//                message.getSender().getId(), message.getChatId(), message.getText());
-//    }
+    @Override
+    public void createMessage(Message message) {
+        jdbcTemplate.update("INSERT INTO messages(sender_id, chat_id, text, dispatch_time) VALUES (?, ?, ?, now());",
+                message.getSender().getId(), message.getChatId(), message.getText());
+    }
 
 //    @Override
 //    public void deleteMessage(int id) {

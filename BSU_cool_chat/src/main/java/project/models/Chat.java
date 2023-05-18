@@ -19,11 +19,9 @@ public class Chat {
         return id;
     }
 
-    public String getName(int user_id) {
-        if (isGroupChat) {
-            return name;
-        }
-        throw new RuntimeException("no name");
+    public String getName() {
+        System.out.println(name);
+        return name;
     }
 
     public User getInterlocutor(int user_id) {
@@ -71,8 +69,8 @@ public class Chat {
                 .orElse(null);
     }
 
-    public ChatInfo getChatInfo() {
+    public ChatInfo getChatInfo(int user_id) {
 //        TODO link
-        return new ChatInfo(getLastMessage(), name, "/invalid_link");
+        return new ChatInfo(getLastMessage(), name);
     }
 }

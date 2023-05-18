@@ -7,6 +7,7 @@ import project.dao.Message.MessageDAO;
 import project.dao.User.UserDAO;
 import project.models.Chat;
 import project.models.ChatInfo;
+import project.models.Message;
 
 import java.util.List;
 
@@ -43,6 +44,17 @@ public class ChatDAO implements ChatService {
     @Override
     public List<ChatInfo> getAllUsersChatsInfo(int user_id) {
 //        TODO maybe better
-        return getAllUsersChats(user_id).stream().map(Chat::getChatInfo).toList();
+        return getAllUsersChats(user_id).stream().map(chat -> chat.getChatInfo(user_id)).toList();
+    }
+
+    @Override
+    public Chat getUsersChat(int user_id, int chat_id) {
+//        TODO maybe better
+        return getAllUsersChats(user_id).stream().filter(chat -> chat.getId() == chat_id).findAny().get();
+    }
+
+    @Override
+    public void createMessage(Message message) {
+        messageDAO.createMessage(message);
     }
 }
