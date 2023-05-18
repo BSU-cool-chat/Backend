@@ -49,7 +49,7 @@ public class UserDAO implements UserService {
                 user.getId());
     }
 
-    public User getById(int id) {
+    public User getUser(int id) {
         return jdbcTemplate.query("SELECT * FROM users WHERE id=?", new Object[]{id}, new UserMapper())
                 .stream()
                 .findAny()

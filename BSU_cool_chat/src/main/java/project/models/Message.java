@@ -20,16 +20,31 @@ public class Message {
         this.dispatchTime = dispatchTime;
     }
 
+    public Message() {
+    }
+
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public User getSender() {
         return sender;
     }
 
+    public void setSender(User sender) {
+        this.sender = sender;
+    }
+
     public int getChatId() {
         return chatId;
+    }
+
+    public void setChatId(int chatId) {
+        this.chatId = chatId;
     }
 
     public String getText() {
@@ -44,7 +59,15 @@ public class Message {
         return dispatchDate;
     }
 
+    public void setDispatchDate(Date dispatchDate) {
+        this.dispatchDate = dispatchDate;
+    }
+
     public Time getDispatchTime() {
         return dispatchTime;
+    }
+
+    public void setDispatchTime(Time dispatchTime) {
+        this.dispatchTime = dispatchTime;
     }
 }
