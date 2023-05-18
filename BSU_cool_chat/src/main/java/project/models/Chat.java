@@ -71,6 +71,6 @@ public class Chat {
 
     public ChatInfo getChatInfo(int user_id) {
 //        TODO link
-        return new ChatInfo(getLastMessage(), name);
+        return new ChatInfo(getLastMessage(), name, "/chats/" + user_id + "/chat/" + id);
     }
 }
