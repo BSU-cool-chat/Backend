@@ -41,6 +41,14 @@ public class ChatsController {
         return "users/chat";
     }
 
+    @PostMapping("/chats/{user_id}/new_standard_chat/{another_user_id}")
+    public String createUsersChat(@PathVariable("user_id") int user_id,
+                                   @PathVariable("another_user_id") int another_user_id,
+                                   Model model) {
+        Chat chat = chatService.getOrCreateStandardChat(user_id, another_user_id);
+        return "redirect:/chats/" + user_id + "/chat/" + chat.getId();
+    }
+
     @PostMapping("/chats/{user_id}/chat/{chat_id}/new_message")
     public String sendMessage(@PathVariable("user_id") int user_id,
                               @PathVariable("chat_id") int chat_id,

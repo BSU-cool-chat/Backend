@@ -1,18 +1,27 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>User</title>
+    <meta charset="UTF-8">
+    <title>User</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/user.css}">
 </head>
 <body>
-<p>User info</p>
-<p>ID</p>
-<p th:text="${user.getId()}">VALUE</p>
-<p>LOGIN</p>
-<p th:text="${user.getLogin()}">VALUE</p>
-<p>PASSWORD</p>
-<p th:text="${user.getPassword()}">VALUE</p>
-<br>
-<a href="/users">Users</a>
+<div class="options">
+    <form class="form" th:method="GET" th:action="@{/chats/__${user_id}__}">
+        <input class="navigation_button" type="submit" value="Chats"/>
+    </form>
+</div>
+<center>
+    <div class="info">
+        <div class="greeting">
+            <h2 th:text="${supervising_user.getLogin()}">Login</h2>
+        </div>
+        <img th:src="@{/static/images/image.png}" class="avatar"/>
+        <br>
+        <form th:method="POST" th:action="@{/chats/__${user_id}__/new_standard_chat/__${supervising_user.getId()}__}">
+            <input class="button" type="submit" value="Create chat"/><br>
+        </form>
+    </div>
+</center>
 </body>
 </html>

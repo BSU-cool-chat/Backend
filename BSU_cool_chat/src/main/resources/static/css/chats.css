@@ -1,5 +1,8 @@
 body {
-    /*background-image: url(../img/fon1.jpg);*/
+    background: url(/static/images/background.png);
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
     font-family: 'Arial', serif;
     color: #0096cd;
 }
@@ -26,6 +29,7 @@ div.chat {
     padding-top: 2%;
     margin: 2%;
     font-size: 20pt;
+    border-radius: 30px;
 }
 
 input.button {
