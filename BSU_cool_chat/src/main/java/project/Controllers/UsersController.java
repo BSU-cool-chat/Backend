@@ -26,9 +26,12 @@ public class UsersController {
         return "users/index";
     }
 
-    @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, Model model) {
-        model.addAttribute("user", userService.getUser(id));
+    @GetMapping("/{id}/supervise/{another_user_id}")
+    public String show(@PathVariable("id") int user_id,
+                       @PathVariable("another_user_id") int another_user_id,
+                       Model model) {
+        model.addAttribute("user_id", user_id);
+        model.addAttribute("supervising_user", userService.getUser(another_user_id));
         return "users/show";
     }
 
