@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" th:href="@{/static/css/login_page.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/login_page.css}"/>
     <title>Registration</title>
 </head>
 <body>
@@ -21,6 +21,8 @@
             <input class="value" type="password" th:field="*{password}" id="password"/>
             <br>
             <input class="button" type="submit" value="Log in!"/><br>
+            <div style="color:red; font-size: 15px" th:if="${is_login_mistake_occur}">Invalid Login or Password<br>
+            </div>
         </form>
         <hr>
         <form th:method="GET" th:action="@{/users/new}">
