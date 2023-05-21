@@ -30,10 +30,11 @@ public class RegisterController {
                         Model model) {
         var id = userService.getUserId(user.getLogin(), user.getPassword());
         if (id.isEmpty()) {
-            model.addAttribute("user", new User());
+            user.setPassword(null);
+            model.addAttribute("user", user);
             model.addAttribute("is_login_mistake_occur", true);
             return "registration/login_page";
         }
-        return "redirect:/chats/" + id;
+        return "redirect:/chats/" + id.get();
     }
 }
