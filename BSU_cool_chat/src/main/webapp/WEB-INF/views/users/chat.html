@@ -53,7 +53,7 @@
     </center>
 </div>
 <div class="options">
-    <form class="form" th:method="GET" th:action="@{/chats/{id}(id=${user_id})}">
+    <form class="form" th:method="GET" th:action="@{/chats/__${user_id}__}">
         <input class="button" type="submit" value="List of all chats"/>
     </form>
 </div>
