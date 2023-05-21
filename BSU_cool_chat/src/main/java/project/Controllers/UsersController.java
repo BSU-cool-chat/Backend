@@ -1,15 +1,14 @@
 package project.Controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import project.Exceptions.DuplicateLoginException;
 import project.dao.User.UserService;
 import project.models.User;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 @RequestMapping("/users")
@@ -37,7 +36,11 @@ public class UsersController {
     }
 
     @PostMapping("/create_new_user")
-    public String create(@ModelAttribute("user") User user) {
+    public String create(@ModelAttribute("user") @Valid User user,
+                         BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "users/new";
+        }
         try {
             userService.createUser(user);
             return "redirect:/enter";
