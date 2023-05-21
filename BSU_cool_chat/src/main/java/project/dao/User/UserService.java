@@ -1,5 +1,6 @@
 package project.dao.User;
 
+import project.Exceptions.DuplicateLoginException;
 import project.models.User;
 
 import java.util.List;
@@ -9,7 +10,7 @@ public interface UserService {
 
     Iterable<User> getAllUsers();
 
-    void createUser(User user);
+    void createUser(User user) throws DuplicateLoginException;
 
     void deleteUser(int id);
 
