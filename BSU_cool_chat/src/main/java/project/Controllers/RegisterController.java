@@ -11,7 +11,7 @@ import project.models.User;
 
 @Controller
 public class RegisterController {
-    private UserService userService;
+    private final UserService userService;
 
     @Autowired
     public RegisterController(UserService userService) {

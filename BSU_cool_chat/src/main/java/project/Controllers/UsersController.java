@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import project.Exceptions.DuplicateLoginException;
 import project.dao.User.UserService;
 import project.models.User;
 
@@ -13,21 +14,15 @@ import java.util.List;
 @Controller
 @RequestMapping("/users")
 public class UsersController {
-    private UserService userService;
+    private final UserService userService;
 
     @Autowired
     public UsersController(UserService userService) {
         this.userService = userService;
     }
 
-    @GetMapping()
-    public String index(Model model) {
-        model.addAttribute("users", userService.getAllUsers());
-        return "users/index";
-    }
-
-    @GetMapping("/{id}/supervise/{another_user_id}")
-    public String show(@PathVariable("id") int user_id,
+    @GetMapping("/{user_id}/supervise/{another_user_id}")
+    public String show(@PathVariable("user_id") int user_id,
                        @PathVariable("another_user_id") int another_user_id,
                        Model model) {
         model.addAttribute("user_id", user_id);
@@ -41,13 +36,18 @@ public class UsersController {
         return "users/new";
     }
 
-    @PostMapping()
+    @PostMapping("/create_new_user")
     public String create(@ModelAttribute("user") User user) {
-        userService.createUser(user);
-        return "redirect:/users";
+        try {
+            userService.createUser(user);
+            return "redirect:/enter";
+        } catch (DuplicateLoginException exception) {
+            System.out.println(exception);
+            return "redirect:/users/create_new_user";
+        }
     }
 
-    @GetMapping("/search/{user_id}/init_page")
+    @GetMapping("/{user_id}/search/init_page")
     public String search(@PathVariable("user_id") int user_id,
                          Model model) {
         model.addAttribute("user_id", user_id);
@@ -55,7 +55,7 @@ public class UsersController {
         return "users/search";
     }
 
-    @GetMapping("/search/{user_id}")
+    @GetMapping("/{user_id}/search")
     public String search(@PathVariable("user_id") int user_id,
                          @ModelAttribute("searching_user") User searchingUser,
                          Model model) {

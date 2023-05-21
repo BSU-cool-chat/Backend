@@ -3,6 +3,7 @@ package project.dao.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import project.Exceptions.DuplicateLoginException;
 import project.dao.Chat.ChatMapper;
 import project.models.User;
 
@@ -29,13 +30,14 @@ public class UserDAO implements UserService {
 //        return jdbcTemplate.query("SELECT * FROM users", new BeanPropertyRowMapper<>(User.class));
     }
 
-    public void createUser(User user) {
+    public void createUser(User user) throws DuplicateLoginException {
         if (jdbcTemplate.query("SELECT * FROM users WHERE login=?;",
                 new Object[]{user.getLogin()},
                 new UserMapper()).stream().findAny().isPresent()) {
-            throw new RuntimeException("user with login \"" + user.getLogin() + "\" already exists");
+            throw new DuplicateLoginException("User with login \"" + user.getLogin() + "\" already exists");
         }
-        jdbcTemplate.update("INSERT INTO users(login, password) VALUES (?, ?);", user.getLogin(), user.getPassword());
+        jdbcTemplate.update("INSERT INTO users(login, password) VALUES (?, ?);",
+                user.getLogin(), user.getPassword());
     }
 
     public void deleteUser(int id) {

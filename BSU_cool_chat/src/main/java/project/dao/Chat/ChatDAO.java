@@ -17,6 +17,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class ChatDAO implements ChatService {
@@ -31,6 +32,11 @@ public class ChatDAO implements ChatService {
         this.userService = userService;
     }
 
+    private void FillChatWithMessagesAndMembers(Chat chat) {
+        chat.setMessages(messageService.getAllMessages(chat.getId()));
+        chat.setMembers(userService.getAllChatMembers(chat.getId()));
+    }
+
     @Override
     public List<Chat> getAllUsersChats(int user_id) {
         var chats = jdbcTemplate.query(
@@ -41,16 +47,12 @@ public class ChatDAO implements ChatService {
                         WHERE member_id = ?;""",
                 new ChatMapper(),
                 user_id).stream().toList();
-        for (var chat : chats) {
-            chat.setMessages(messageService.getAllMessages(chat.getId()));
-            chat.setMembers(userService.getAllChatMembers(chat.getId()));
-        }
+        chats.forEach(this::FillChatWithMessagesAndMembers);
         return chats;
     }
 
     @Override
     public List<ChatInfo> getAllUsersChatsInfo(int user_id) {
-//        TODO maybe better
         return getAllUsersChats(user_id).stream()
                 .filter(chat -> !chat.getMessages().isEmpty())
                 .map(chat -> chat.getChatInfo(user_id))
@@ -58,13 +60,26 @@ public class ChatDAO implements ChatService {
     }
 
     @Override
-    public Chat getUsersChat(int user_id, int chat_id) {
-//        TODO maybe better
-        return getAllUsersChats(user_id).stream().filter(chat -> chat.getId() == chat_id).findAny().get();
+    public Chat getChat(int chat_id) {
+        Optional<Chat> chat = jdbcTemplate.query(
+                """
+                        SELECT id AS chat_id, name, is_group_chat
+                        FROM chats
+                        WHERE id = ?;""",
+                new ChatMapper(),
+                chat_id).stream().findAny();
+        if (chat.isEmpty()) {
+            throw new RuntimeException("Chat not found");
+        }
+        FillChatWithMessagesAndMembers(chat.get());
+        return chat.get();
     }
 
     @Override
     public Chat getOrCreateStandardChat(int user1_id, int user2_id) {
+        if (user1_id == user2_id) {
+            throw new RuntimeException("Cannot create chat between the same users");
+        }
         var searching_result = jdbcTemplate.query(
                 """
                         SELECT id AS chat_id, name, is_group_chat
@@ -88,27 +103,23 @@ public class ChatDAO implements ChatService {
         messageService.createMessage(message);
     }
 
-    static class IntMapper implements RowMapper<Integer> {
-        @Override
-        public Integer mapRow(ResultSet resultSet, int rowNumber) throws SQLException {
-            return resultSet.getInt("lst");
-        }
-    }
-
     private Chat CreateStandardChat(int user1_id, int user2_id) {
         User user1 = userService.getUser(user1_id);
         User user2 = userService.getUser(user2_id);
-        int id = 1 + jdbcTemplate.query("""
-                        SELECT MAX(id) AS lst FROM chats;
-                        """,
-                new IntMapper()).stream().findAny().get();
         String chat_name = "Chat between " + user1.getLogin() + " and " + user2.getLogin();
-        Chat new_chat = new Chat(id, chat_name, false);
+        int chat_id = jdbcTemplate.query("""
+                                INSERT INTO chats(name, is_group_chat)
+                                VALUES (?, ?)
+                                RETURNING id""",
+                        new IdMapper(),
+                        chat_name, false).stream()
+                .findAny().get();
+        jdbcTemplate.update("""
+                        INSERT INTO chats_members(chat_id, member_id)
+                        VALUES (?, ?), (?, ?)""",
+                chat_id, user1_id, chat_id, user2_id);
+        Chat new_chat = new Chat(chat_id, chat_name, false);
         new_chat.setMembers(List.of(user1, user2));
-        jdbcTemplate.update("""
-                INSERT INTO chats(name, is_group_chat) VALUES (?, ?)""", chat_name, false);
-        jdbcTemplate.update("""
-                INSERT INTO chats_members(chat_id, member_id) VALUES (?, ?), (?, ?)""", id, user1_id, id, user2_id);
         return new_chat;
     }
 }

@@ -11,7 +11,7 @@ public interface ChatService {
 
     List<ChatInfo> getAllUsersChatsInfo(int user_id);
 
-    Chat getUsersChat(int user_id, int chat_id);
+    Chat getChat(int chat_id);
     Chat getOrCreateStandardChat(int user1_id, int user2_id);
 
     void createMessage(Message message);

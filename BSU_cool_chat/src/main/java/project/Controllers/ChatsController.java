@@ -14,8 +14,8 @@ import project.models.Message;
 
 @Controller
 public class ChatsController {
-    private ChatService chatService;
-    private UserService userService;
+    private final ChatService chatService;
+    private final UserService userService;
 
     @Autowired
     public ChatsController(ChatService chatService, UserService userService) {
@@ -34,7 +34,7 @@ public class ChatsController {
     public String displayUsersChat(@PathVariable("chat_id") int chat_id,
                                    @PathVariable("user_id") int user_id,
                                    Model model) {
-        model.addAttribute("chat", chatService.getUsersChat(user_id, chat_id));
+        model.addAttribute("chat", chatService.getChat(chat_id));
         model.addAttribute("user_id", user_id);
         model.addAttribute("chat_id", chat_id);
         model.addAttribute("message", new Message());

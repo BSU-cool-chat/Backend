@@ -7,7 +7,7 @@
 </head>
 <body>
 <div class="menu">
-    <form class="form" th:method="GET" th:action="@{/chats/{id}(id=${user_id})}" id="ret">
+    <form class="form" th:method="GET" th:action="@{/chats/__${user_id}__}" id="ret">
     <div class="pointer">
     <i onclick="document.getElementById('ret').submit()" class="fa fa-angle-left"> </i>
     </div>
