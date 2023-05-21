@@ -21,12 +21,19 @@ public class RegisterController {
     @GetMapping("/enter")
     public String GreetingPage(Model model) {
         model.addAttribute("user", new User());
+        model.addAttribute("is_login_mistake_occur", false);
         return "registration/login_page";
     }
 
     @PostMapping("/log_in")
-    public String LogIn(@ModelAttribute("user") User user) {
+    public String LogIn(@ModelAttribute("user") User user,
+                        Model model) {
         var id = userService.getUserId(user.getLogin(), user.getPassword());
-        return id.map(integer -> "redirect:/chats/" + integer).orElse("redirect:/enter");
+        if (id.isEmpty()) {
+            model.addAttribute("user", new User());
+            model.addAttribute("is_login_mistake_occur", true);
+            return "registration/login_page";
+        }
+        return "redirect:/chats/" + id;
     }
 }
