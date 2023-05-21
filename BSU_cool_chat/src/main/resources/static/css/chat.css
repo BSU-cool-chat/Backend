@@ -19,7 +19,7 @@ a{
     position: absolute;
     width: 90px;
     height: 50px;
-    top: 0px;
+    top: 5px;
     left: 0px;
     color: #0096cd;
     line-height: 45px;
@@ -30,7 +30,8 @@ a{
 }
 
 .menu {
-    position: fixed;
+    display: flex;
+    justify-content: center;
     top: 0px;
     left: 0px;
     right: 0px;
@@ -41,31 +42,11 @@ a{
 }
 
 .name{
-    position: absolute;
-    top: 7px;
-    left: 750px;
+    align-self: flex-end;
     font-family: 'Arial', serif;
     color: #0096cd;
     font-weight: 700;
-    font-size: 20pt;
-}
-
-input.button {
-    position: absolute;
-    left: 10px;
-    width: 100px;
-    height: 30px;
-    padding: 10px;
-    border: none;
-    box-shadow: inset -3px -3px 10px 3px #01A9DB;
-    background: #A9E2F3;
-    border-radius: 30px;
-}
-
-input.button:hover {
-    background: #078ab0;
-    box-shadow: inset -3px -3px 10px 3px #0f228f;
-    color: #E0F8F7;
+    font-size: 26pt;
 }
 
 .chat {
@@ -73,7 +54,7 @@ input.button:hover {
     background: none;
     margin: 0;
     padding: 0 0 50px 0;
-    margin-top: 60px;
+    margin-top: 7px;
     margin-bottom: 10px;
 }
 .chat li {
