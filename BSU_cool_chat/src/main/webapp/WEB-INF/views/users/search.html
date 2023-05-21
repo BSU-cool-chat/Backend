@@ -12,7 +12,7 @@
     </form>
 </div>
 <center>
-    <form th:method="GET" th:action="@{/users/search/__${user_id}__}" th:object="${searching_user}">
+    <form th:method="GET" th:action="@{/users/__${user_id}__/search}" th:object="${searching_user}">
         <input type="text" th:field="*{login}" id="login"/>
         <input type="submit" value="Search"/>
     </form>

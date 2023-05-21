@@ -10,7 +10,7 @@
     <form class="form" th:method="GET" th:action="@{menu/todo}">
         <input class="button" type="submit" value="Menu"/>
     </form>
-    <form class="form" th:method="GET" th:action="@{/users/search/__${user_id}__/init_page}">
+    <form class="form" th:method="GET" th:action="@{/users/__${user_id}__/search/init_page}">
         <input class="button" type="submit" value="Search"/>
     </form>
 </div>

@@ -47,7 +47,7 @@ public class UsersController {
         }
     }
 
-    @GetMapping("/search/{user_id}/init_page")
+    @GetMapping("/{user_id}/search/init_page")
     public String search(@PathVariable("user_id") int user_id,
                          Model model) {
         model.addAttribute("user_id", user_id);
@@ -55,7 +55,7 @@ public class UsersController {
         return "users/search";
     }
 
-    @GetMapping("/search/{user_id}")
+    @GetMapping("/{user_id}/search")
     public String search(@PathVariable("user_id") int user_id,
                          @ModelAttribute("searching_user") User searchingUser,
                          Model model) {
