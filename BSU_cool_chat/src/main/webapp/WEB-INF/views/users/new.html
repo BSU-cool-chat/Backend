@@ -14,14 +14,18 @@
                     name="login"
                     class="home-login input"
                     th:field="*{login}"
+                    autocomplete="off"
                     id="login"/>
             <div style="color: #1100ff" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Login error<br></div>
+            <div style="color:#1100ff; font-size: 15px" th:if="${is_login_duplicated}">Such Login is already used<br>
+            </div>
             <input
-                    type="text"
+                    type="password"
                     placeholder="password"
                     name="password"
                     class="home-password input"
                     th:field="*{password}"
+                    autocomplete="off"
                     id="password"/>
             <div style="color:#1100ff" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password
                 Error<br></div>
