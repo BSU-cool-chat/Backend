@@ -32,12 +32,14 @@ public class UsersController {
     @GetMapping("/new")
     public String newUser(Model model) {
         model.addAttribute("user", new User());
+        model.addAttribute("is_login_duplicated", false);
         return "users/new";
     }
 
     @PostMapping("/create_new_user")
     public String create(@ModelAttribute("user") @Valid User user,
-                         BindingResult bindingResult) {
+                         BindingResult bindingResult,
+                         Model model) {
         if (bindingResult.hasErrors()) {
             return "users/new";
         }
@@ -45,8 +47,9 @@ public class UsersController {
             userService.createUser(user);
             return "redirect:/enter";
         } catch (DuplicateLoginException exception) {
-            System.out.println(exception);
-            return "redirect:/users/create_new_user";
+            model.addAttribute("user", user);
+            model.addAttribute("is_login_duplicated", true);
+            return "users/new";
         }
     }
 

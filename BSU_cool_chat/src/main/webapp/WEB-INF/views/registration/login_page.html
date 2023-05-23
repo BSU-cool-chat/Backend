@@ -18,7 +18,7 @@
             <br>
             <label for="password">Password</label>
             <br>
-            <input class="value" type="password" th:field="*{password}" id="password"/>
+            <input class="value" type="password" th:field="*{password}" autocomplete="off" id="password"/>
             <br>
             <input class="button" type="submit" value="Log in!"/><br>
             <div style="color:red; font-size: 15px" th:if="${is_login_mistake_occur}">Invalid Login or Password<br>
