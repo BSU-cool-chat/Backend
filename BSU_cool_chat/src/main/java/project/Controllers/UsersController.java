@@ -25,7 +25,7 @@ public class UsersController {
                        @PathVariable("another_user_id") int another_user_id,
                        Model model) {
         model.addAttribute("user_id", user_id);
-        model.addAttribute("supervising_user", userService.getUser(another_user_id));
+        model.addAttribute("supervising_user_info", userService.getUser(another_user_id).getUserInfo());
         return "users/show";
     }
 

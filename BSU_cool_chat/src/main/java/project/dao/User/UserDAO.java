@@ -4,7 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import project.Exceptions.DuplicateLoginException;
-import project.dao.Chat.ChatMapper;
+import project.config.databases.DatabaseInitializer;
+import project.dao.Chat.IdMapper;
 import project.models.User;
 
 import javax.annotation.PostConstruct;
@@ -13,46 +14,61 @@ import java.util.Optional;
 
 @Component
 public class UserDAO implements UserService {
+    private final DatabaseInitializer databaseInitializer;
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public UserDAO(JdbcTemplate jdbcTemplate) {
+    public UserDAO(DatabaseInitializer databaseInitializer, JdbcTemplate jdbcTemplate) {
+        this.databaseInitializer = databaseInitializer;
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @PostConstruct
     void postConstruct() {
-        jdbcTemplate.update("CREATE TABLE IF NOT EXISTS users(id SERIAL PRIMARY KEY, login varchar, password varchar);");
+        databaseInitializer.initDatabases();
     }
 
     public List<User> getAllUsers() {
-        return jdbcTemplate.query("SELECT * FROM users;", new UserMapper());
+        return jdbcTemplate.query("""
+                SELECT users.id, login, password, name, sex, age, additional_info
+                FROM users
+                    INNER JOIN users_info on users.id = users_info.user_id;
+                """, new UserMapper());
 //        return jdbcTemplate.query("SELECT * FROM users", new BeanPropertyRowMapper<>(User.class));
     }
 
     public void createUser(User user) throws DuplicateLoginException {
         if (jdbcTemplate.query("SELECT * FROM users WHERE login=?;",
                 new Object[]{user.getLogin()},
-                new UserMapper()).stream().findAny().isPresent()) {
+                new IdMapper()).stream().findAny().isPresent()) {
             throw new DuplicateLoginException("User with login \"" + user.getLogin() + "\" already exists");
         }
-        jdbcTemplate.update("INSERT INTO users(login, password) VALUES (?, ?);",
-                user.getLogin(), user.getPassword());
+        int user_id = jdbcTemplate.query("""
+                                INSERT INTO users(login, password)
+                                VALUES (?, ?)
+                                RETURNING id""",
+                        new IdMapper(),
+                        user.getLogin(), user.getPassword()).stream()
+                .findAny().get();
+//        TODO maybe should add name, sex, age, additional info
+        jdbcTemplate.update(" INSERT INTO users_info(user_id) VALUES(?) ", user_id);
     }
 
     public void deleteUser(int id) {
-        throw new RuntimeException("no such method");
+        throw new RuntimeException("no such method implementation");
     }
 
     public void updateUser(User user) {
-        jdbcTemplate.update("UPDATE users SET login=?, password=? WHERE id=?;",
-                user.getLogin(),
-                user.getPassword(),
-                user.getId());
+        throw new RuntimeException("no such method implementation");
     }
 
     public User getUser(int id) {
-        return jdbcTemplate.query("SELECT * FROM users WHERE id=?", new Object[]{id}, new UserMapper())
+        return jdbcTemplate.query("""
+                        SELECT users.id, login, password, name, sex, age, additional_info
+                        FROM users
+                            INNER JOIN users_info ON users.id = users_info.user_id
+                        WHERE users.id=?
+                        """, new Object[]{id}, new UserMapper())
                 .stream()
                 .findAny()
                 .orElse(null);
@@ -70,9 +86,10 @@ public class UserDAO implements UserService {
     public List<User> getAllChatMembers(int chat_id) {
         var members = jdbcTemplate.query(
                 """
-                        SELECT member_id AS id, login, password
+                        SELECT users.id, login, password, name, sex, age, additional_info
                         FROM chats_members
                                 INNER JOIN users ON member_id = users.id
+                                INNER JOIN users_info ON users.id = users_info.user_id
                         WHERE chat_id = ?;""",
                 new UserMapper(),
                 chat_id).stream().toList();
@@ -83,8 +100,9 @@ public class UserDAO implements UserService {
     public List<User> getAllSimilarUsers(String searching_login) {
         var found_users = jdbcTemplate.query(
                 """
-                        SELECT *
+                        SELECT users.id, login, password, name, sex, age, additional_info
                         FROM users
+                            INNER JOIN users_info on users.id = users_info.user_id
                         WHERE LOWER(login) LIKE '%' || (LOWER(?)) || '%';""",
                 new UserMapper(),
                 searching_login).stream().toList();

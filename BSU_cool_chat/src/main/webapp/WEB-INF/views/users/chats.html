@@ -16,7 +16,7 @@
 </div>
 <center>
     <div class="chat" th:each="chat_info : ${chats_info}">
-        <form th:method="GET" th:action="@{${chat_info.getLink()}}">
+        <form th:method="GET" th:action="@{${chat_info.getLink('__${user_id}__')}}">
             <h3 th:text="${chat_info.getName()}">Chat</h3>
             <p>(<span th:text="${chat_info.getLastMessage().getSender().getLogin}">Sender</span>):
                 <span th:text="${chat_info.getLastMessage().getText()}">Message</span></p>

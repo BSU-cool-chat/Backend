@@ -1,9 +1,7 @@
 package project.dao.Chat;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 import project.dao.Message.MessageDAO;
 import project.dao.Message.MessageService;
@@ -13,9 +11,6 @@ import project.models.ChatInfo;
 import project.models.Message;
 import project.models.User;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,7 +50,7 @@ public class ChatDAO implements ChatService {
     public List<ChatInfo> getAllUsersChatsInfo(int user_id) {
         return getAllUsersChats(user_id).stream()
                 .filter(chat -> !chat.getMessages().isEmpty())
-                .map(chat -> chat.getChatInfo(user_id))
+                .map(chat -> chat.getChatInfo())
                 .toList();
     }
 

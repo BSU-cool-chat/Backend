@@ -69,8 +69,7 @@ public class Chat {
                 .orElse(null);
     }
 
-    public ChatInfo getChatInfo(int user_id) {
-//        TODO link
-        return new ChatInfo(getLastMessage(), name, "/chats/" + user_id + "/chat/" + id);
+    public ChatInfo getChatInfo() {
+        return new ChatInfo(id, name, getLastMessage());
     }
 }

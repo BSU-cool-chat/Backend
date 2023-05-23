@@ -14,11 +14,12 @@
 <center>
     <div class="info">
         <div class="greeting">
-            <h2 th:text="${supervising_user.getLogin()}">Login</h2>
+            <h2 th:text="${supervising_user_info.getLogin()}">Login</h2>
         </div>
         <img th:src="@{/static/images/image.png}" class="avatar"/>
         <br>
-        <form th:method="POST" th:action="@{/chats/__${user_id}__/new_standard_chat/__${supervising_user.getId()}__}">
+        <p><span style="white-space: pre-line" th:text="${supervising_user_info.getAllInfo()}"></span></p>
+        <form th:method="POST" th:action="@{${supervising_user_info.getChatLink('__${user_id}__')}}">
             <input class="button" type="submit" value="Create chat"/><br>
         </form>
     </div>
