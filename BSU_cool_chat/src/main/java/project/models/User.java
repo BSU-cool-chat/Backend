@@ -12,9 +12,24 @@ public class User {
     @NotEmpty(message = "Password should not be empty")
     @Size(min = 2, max = 30, message = "Password should be between 2 and 30 characters")
     private String password;
+    private String name;
+    private String sex;
+    private Integer age;
+    private String additionalInfo;
 
     public User() {
 
+    }
+
+    public User(int id, String login, String password,
+                String name, String sex, Integer age, String additionalInfo) {
+        this.id = id;
+        this.login = login;
+        this.password = password;
+        this.name = name;
+        this.sex = sex;
+        this.age = age;
+        this.additionalInfo = additionalInfo;
     }
 
     public long getId() {
@@ -41,9 +56,7 @@ public class User {
         this.password = password;
     }
 
-    public User(int id, String login, String password) {
-        this.id = id;
-        this.login = login;
-        this.password = password;
+    public UserInfo getUserInfo() {
+        return new UserInfo(id, login, name, sex, age, additionalInfo);
     }
 }

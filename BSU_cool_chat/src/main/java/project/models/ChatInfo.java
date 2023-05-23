@@ -1,14 +1,14 @@
 package project.models;
 
 public class ChatInfo {
-    private Message lastMessage;
+    private int chat_id;
     private String name;
-    private String link;
+    private Message lastMessage;
 
-    public ChatInfo(Message lastMessage, String name, String link) {
-        this.lastMessage = lastMessage;
+    public ChatInfo(int chat_id, String name, Message lastMessage) {
+        this.chat_id = chat_id;
         this.name = name;
-        this.link = link;
+        this.lastMessage = lastMessage;
     }
 
     public Message getLastMessage() {
@@ -19,7 +19,7 @@ public class ChatInfo {
         return name;
     }
 
-    public String getLink() {
-        return link;
+    public String getLink(int user_id) {
+        return "/chats/" + user_id + "/chat/" + chat_id;
     }
 }
