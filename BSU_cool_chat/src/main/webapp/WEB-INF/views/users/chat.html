@@ -16,7 +16,7 @@
 </div>
     <ol class="chat">
         <div th:each="message : ${chat.getMessages()}">
-        <li class="self">
+        <li class="other">
             <div class="msg">
                 <div class="user" th:text="${message.getSender().getLogin()}">Login</div>
                 <p th:text="${message.getText()}">Text!</p>
@@ -25,6 +25,18 @@
                 <time th:text="${message.getDispatchTime()}"> Time</time>
             </div>
         </li>
+
+            <li class="self">
+                <div class="msg">
+                    <div class="user" th:text="${message.getSender().getLogin()}">Login</div>
+                    <p th:text="${message.getText()}">Text!</p>
+                    <time th:text="${message.getDispatchDate()}">Time</time>
+                    <time>&nbsp;&nbsp;</time>
+                    <time th:text="${message.getDispatchTime()}"> Time</time>
+                </div>
+            </li>
+
+
         </div>
     </ol>
 <form th:method="POST" th:action="@{/chats/__${user_id}__/chat/__${chat_id}__/new_message}"
