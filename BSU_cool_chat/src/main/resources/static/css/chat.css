@@ -85,6 +85,17 @@ a{
     border-top-left-radius: 0px;
     box-shadow: -1px 2px 0px #D4D4D4;
 }
+
+.self {
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+.self .msg {
+    order: 1;
+    border-bottom-right-radius: 0px;
+    box-shadow: 1px 2px 0px #D4D4D4;
+}
+
 .other:before {
     content: "";
     position: relative;

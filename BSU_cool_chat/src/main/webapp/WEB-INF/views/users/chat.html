@@ -16,7 +16,7 @@
 </div>
     <ol class="chat">
         <div th:each="message : ${chat.getMessages()}">
-        <li class="other">
+        <li class="self">
             <div class="msg">
                 <div class="user" th:text="${message.getSender().getLogin()}">Login</div>
                 <p th:text="${message.getText()}">Text!</p>
