@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>All messages</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/static/css/chat.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/chat.css}"/>
 </head>
 <body>
 <div class="menu">
     <form class="form" th:method="GET" th:action="@{/chats/__${user_id}__}" id="ret">
-    <div class="pointer">
-    <i onclick="document.getElementById('ret').submit()" class="fa fa-angle-left"> </i>
-    </div>
+        <div class="pointer">
+            <i onclick="document.getElementById('ret').submit()" class="fa fa-angle-left"> </i>
+        </div>
     </form>
-    <div class="name"  th:text="${chat.getName()}">Name</div>
+    <div class="name" th:text="${chat.getName()}">Name</div>
 </div>
-    <ol class="chat">
-        <div th:each="message : ${chat.getMessages()}">
-        <li class="other">
+<ol class="chat">
+    <div th:each="message : ${chat.getMessages()}">
+        <li th:if="${user_id} == ${message.getSender().getId()}" class="self">
             <div class="msg">
                 <div class="user" th:text="${message.getSender().getLogin()}">Login</div>
                 <p th:text="${message.getText()}">Text!</p>
@@ -25,8 +25,17 @@
                 <time th:text="${message.getDispatchTime()}"> Time</time>
             </div>
         </li>
-        </div>
-    </ol>
+        <li th:if="${user_id} != ${message.getSender().getId()}" class="other">
+            <div class="msg">
+                <div class="user" th:text="${message.getSender().getLogin()}">Login</div>
+                <p th:text="${message.getText()}">Text!</p>
+                <time th:text="${message.getDispatchDate()}">Time</time>
+                <time>&nbsp;&nbsp;</time>
+                <time th:text="${message.getDispatchTime()}"> Time</time>
+            </div>
+        </li>
+    </div>
+</ol>
 <form th:method="POST" th:action="@{/chats/__${user_id}__/chat/__${chat_id}__/new_message}"
       th:object="${message}">
 <input class="textarea" type="text"  th:field="*{text}"  placeholder="Type here!" autocomplete="off" autofocus/>
