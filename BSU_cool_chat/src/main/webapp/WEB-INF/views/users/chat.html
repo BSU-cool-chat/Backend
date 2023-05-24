@@ -29,7 +29,7 @@
     </ol>
 <form th:method="POST" th:action="@{/chats/__${user_id}__/chat/__${chat_id}__/new_message}"
       th:object="${message}">
-<input class="textarea" type="text"  th:field="*{text}"  placeholder="Type here!" autocomplete="off"/>
+<input class="textarea" type="text"  th:field="*{text}"  placeholder="Type here!" autocomplete="off" autofocus/>
     </form>
 </body>
 </html>
