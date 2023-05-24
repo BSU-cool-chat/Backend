@@ -19,8 +19,17 @@
         <img th:src="@{/static/images/image.png}" class="avatar"/>
         <br>
         <p><span style="white-space: pre-line" th:text="${supervising_user_info.getAllInfo()}"></span></p>
-        <form th:method="POST" th:action="@{${supervising_user_info.getChatLink('__${user_id}__')}}">
-            <input class="button" type="submit" value="Create chat"/><br>
+        <form
+                th:if="${user_id} != ${supervising_user_info.getId()}"
+                th:method="POST"
+                th:action="@{${supervising_user_info.getChatLink('__${user_id}__')}}">
+            <input class="button" type="submit" value="Write message"/><br>
+        </form>
+        <form
+                th:if="${user_id} == ${supervising_user_info.getId()}"
+                th:method="GET"
+                th:action="todo">
+            <input class="button" type="submit" value="Edit profile"/><br>
         </form>
     </div>
 </center>
