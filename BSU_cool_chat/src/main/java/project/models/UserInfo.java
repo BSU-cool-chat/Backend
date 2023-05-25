@@ -17,6 +17,10 @@ public class UserInfo {
         this.additionalInfo = additionalInfo;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public String getLogin() {
         return login;
     }

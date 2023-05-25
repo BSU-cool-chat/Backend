@@ -10,6 +10,7 @@ import project.models.User;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 @Component
@@ -34,13 +35,10 @@ public class UserDAO implements UserService {
                 FROM users
                     INNER JOIN users_info on users.id = users_info.user_id;
                 """, new UserMapper());
-//        return jdbcTemplate.query("SELECT * FROM users", new BeanPropertyRowMapper<>(User.class));
     }
 
     public void createUser(User user) throws DuplicateLoginException {
-        if (jdbcTemplate.query("SELECT * FROM users WHERE login=?;",
-                new Object[]{user.getLogin()},
-                new IdMapper()).stream().findAny().isPresent()) {
+        if (getAllUsers().stream().anyMatch(existing_user -> existing_user.getLogin().equals(user.getLogin()))) {
             throw new DuplicateLoginException("User with login \"" + user.getLogin() + "\" already exists");
         }
         int user_id = jdbcTemplate.query("""
@@ -63,16 +61,10 @@ public class UserDAO implements UserService {
     }
 
     public User getUser(int id) {
-        return jdbcTemplate.query("""
-                        SELECT users.id, login, password, name, sex, age, additional_info
-                        FROM users
-                            INNER JOIN users_info ON users.id = users_info.user_id
-                        WHERE users.id=?
-                        """, new Object[]{id}, new UserMapper())
-                .stream()
+        return getAllUsers().stream()
+                .filter(user -> user.getId() == id)
                 .findAny()
-                .orElse(null);
-//                .orElse(new Error(id + "not found"));
+                .orElseThrow(() -> new RuntimeException(id + "not found"));
     }
 
     public Optional<Integer> getUserId(String login, String password) {
@@ -84,7 +76,7 @@ public class UserDAO implements UserService {
 
     @Override
     public List<User> getAllChatMembers(int chat_id) {
-        var members = jdbcTemplate.query(
+        return jdbcTemplate.query(
                 """
                         SELECT users.id, login, password, name, sex, age, additional_info
                         FROM chats_members
@@ -93,19 +85,12 @@ public class UserDAO implements UserService {
                         WHERE chat_id = ?;""",
                 new UserMapper(),
                 chat_id).stream().toList();
-        return members;
     }
 
     @Override
     public List<User> getAllSimilarUsers(String searching_login) {
-        var found_users = jdbcTemplate.query(
-                """
-                        SELECT users.id, login, password, name, sex, age, additional_info
-                        FROM users
-                            INNER JOIN users_info on users.id = users_info.user_id
-                        WHERE LOWER(login) LIKE '%' || (LOWER(?)) || '%';""",
-                new UserMapper(),
-                searching_login).stream().toList();
-        return found_users;
+        return getAllUsers().stream()
+                .filter(user -> user.getLogin().toLowerCase(Locale.ROOT).contains(searching_login.toLowerCase()))
+                .toList();
     }
 }
