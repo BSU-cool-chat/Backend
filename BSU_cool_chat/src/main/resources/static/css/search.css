@@ -11,6 +11,9 @@ input, button {
 
 body {
     margin-top: 13%;
+    display: grid;
+    font-size: 1.6rem;
+    place-items: center;
     background: url(/static/images/background.png);
     background-size: cover;
     background-position: center center;
@@ -49,10 +52,10 @@ input[type="text"] {
     margin-bottom: 20%;
     padding-left: 40px;
     border-radius: 35px 0 0 35px;
-    color: rgb(110,110,110);
-    font-size: 1.6rem;
+    color: #0096cd;
+    font-size: 21pt;
     font-family: 'Lato', sans-serif;
-    font-weight: 200;
+    font-weight: 400;
     text-align: center;
 }
 
@@ -67,20 +70,6 @@ p {
 
 
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
-html {
-    font-size: 62.5%;
-}
-
-body {
-    margin: 0;
-    height: 100vh;
-    display: grid;
-    font-size: 1.6rem;
-    place-items: center;
-    background: linear-gradient(to right bottom, #ffb88e, #ea5753);
-    font-family: Rockwell, "Courier New", Courier, Georgia, Times, "Times New Roman", serif;
-}
-
 .container {
     width: 40vw;
     padding: 3rem;
@@ -92,27 +81,6 @@ body {
 }
 .container::-webkit-scrollbar {
     width: 0;
-}
-.container::before {
-    content: "";
-    top: -10rem;
-    left: -10rem;
-    width: 40rem;
-    height: 40rem;
-    position: absolute;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.35);
-}
-.container::after {
-    content: "";
-    bottom: 0rem;
-    right: -10rem;
-    width: 40rem;
-    height: 40rem;
-    margin-bottom: -25rem;
-    position: absolute;
-    border-radius: 50%;
-    background: rgba(255, 185, 142, 0.6);
 }
 .container h1 {
     top: 0;
@@ -140,11 +108,35 @@ body {
     width: 40rem;
     text-align: center;
     color: #fff;
-    border-radius: 3rem;
     background: rgba(234, 87, 83, 0.7);
     counter-increment: my-counter;
     padding: 1.1rem 1.5rem 1.1rem 1.5rem;
 }
 .container ol li::before {
     content: counter(my-counter) ". ";
+}
+input.button {
+    position: absolute;
+    top: 8px;
+    left: 16px;
+    width: 110px;
+    height: 50px;
+    padding: 10px;
+    border: none;
+    box-shadow: inset -3px -3px 10px 3px #01A9DB;
+    background: #A9E2F3;
+    border-radius: 30px;
+}
+
+div.button:hover {
+    background: #078ab0;
+    box-shadow: inset -3px -3px 10px 3px #0f228f;
+    color: #E0F8F7;
+}
+
+
+input.button:hover {
+    background: #078ab0;
+    box-shadow: inset -3px -3px 10px 3px #0f228f;
+    color: #E0F8F7;
 }
