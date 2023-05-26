@@ -32,7 +32,7 @@ public class User {
         this.additionalInfo = additionalInfo;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 

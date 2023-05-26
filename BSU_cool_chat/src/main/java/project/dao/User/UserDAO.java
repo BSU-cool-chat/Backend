@@ -1,96 +1,22 @@
 package project.dao.User;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
 import project.Exceptions.DuplicateLoginException;
-import project.config.databases.DatabaseInitializer;
-import project.dao.Chat.IdMapper;
 import project.models.User;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 
-@Component
-public class UserDAO implements UserService {
-    private final DatabaseInitializer databaseInitializer;
-    private final JdbcTemplate jdbcTemplate;
+public interface UserDAO {
+    List<User> getAllUsers();
 
-    @Autowired
-    public UserDAO(DatabaseInitializer databaseInitializer, JdbcTemplate jdbcTemplate) {
-        this.databaseInitializer = databaseInitializer;
-        this.jdbcTemplate = jdbcTemplate;
-    }
+    void createUser(User user) throws DuplicateLoginException;
 
-    @PostConstruct
-    void postConstruct() {
-        databaseInitializer.initDatabases();
-    }
+    void deleteUser(int id);
 
-    public List<User> getAllUsers() {
-        return jdbcTemplate.query("""
-                SELECT users.id, login, password, name, sex, age, additional_info
-                FROM users
-                    INNER JOIN users_info on users.id = users_info.user_id;
-                """, new UserMapper());
-    }
+    void updateUser(User user);
 
-    public void createUser(User user) throws DuplicateLoginException {
-        if (getAllUsers().stream().anyMatch(existing_user -> existing_user.getLogin().equals(user.getLogin()))) {
-            throw new DuplicateLoginException("User with login \"" + user.getLogin() + "\" already exists");
-        }
-        int user_id = jdbcTemplate.query("""
-                                INSERT INTO users(login, password)
-                                VALUES (?, ?)
-                                RETURNING id""",
-                        new IdMapper(),
-                        user.getLogin(), user.getPassword()).stream()
-                .findAny().get();
-//        TODO maybe should add name, sex, age, additional info
-        jdbcTemplate.update(" INSERT INTO users_info(user_id) VALUES(?) ", user_id);
-    }
+    User getUser(int id);
 
-    public void deleteUser(int id) {
-        throw new RuntimeException("no such method implementation");
-    }
-
-    public void updateUser(User user) {
-        throw new RuntimeException("no such method implementation");
-    }
-
-    public User getUser(int id) {
-        return getAllUsers().stream()
-                .filter(user -> user.getId() == id)
-                .findAny()
-                .orElseThrow(() -> new RuntimeException(id + "not found"));
-    }
-
-    public Optional<Integer> getUserId(String login, String password) {
-        var searching_user = getAllUsers().stream()
-                .filter(user -> user.getLogin().equals(login) && user.getPassword().equals(password))
-                .findAny();
-        return searching_user.map(user -> Math.toIntExact(user.getId()));
-    }
-
-    @Override
-    public List<User> getAllChatMembers(int chat_id) {
-        return jdbcTemplate.query(
-                """
-                        SELECT users.id, login, password, name, sex, age, additional_info
-                        FROM chats_members
-                                INNER JOIN users ON member_id = users.id
-                                INNER JOIN users_info ON users.id = users_info.user_id
-                        WHERE chat_id = ?;""",
-                new UserMapper(),
-                chat_id).stream().toList();
-    }
-
-    @Override
-    public List<User> getAllSimilarUsers(String searching_login) {
-        return getAllUsers().stream()
-                .filter(user -> user.getLogin().toLowerCase(Locale.ROOT).contains(searching_login.toLowerCase()))
-                .toList();
-    }
+    Optional<Integer> getUserId(String login, String password);
+    List<User> getAllSimilarUsers(String searching_login);
 }

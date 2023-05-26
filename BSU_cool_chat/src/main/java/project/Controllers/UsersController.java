@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import project.Exceptions.DuplicateLoginException;
-import project.dao.User.UserService;
+import project.service.User.UserService;
 import project.models.User;
 
 @Controller
