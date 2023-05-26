@@ -86,6 +86,8 @@ class UserServiceImplTest {
                 "Sex\tmale\n" +
                 "Age\t19\n" +
                 "AAdditionalInfo\tYSDA 1st year student, BSU 2nd year student, swimmer\n");
+
+        runCommand("src/test/clear_database.sh");
     }
 
     @Test
@@ -134,6 +136,8 @@ class UserServiceImplTest {
                 "Sex\tmale\n" +
                 "Age\t3\n" +
                 "AAdditionalInfo\tbaby\n");
+
+        runCommand("src/test/clear_database.sh");
     }
 
     @Test
@@ -182,6 +186,8 @@ class UserServiceImplTest {
                 "Sex\tmale\n" +
                 "Age\t3\n" +
                 "AAdditionalInfo\tbaby\n");
+
+        runCommand("src/test/clear_database.sh");
     }
 
 
@@ -207,6 +213,8 @@ class UserServiceImplTest {
                 "Sex\tmale\n" +
                 "Age\t19\n" +
                 "AAdditionalInfo\tYSDA 1st year student, BSU 2nd year student, swimmer\n");
+
+        runCommand("src/test/clear_database.sh");
     }
 
     @Test
@@ -224,6 +232,8 @@ class UserServiceImplTest {
         Assertions.assertEquals(userService.getUserId("adamenko", "qwerty").get(), 1);
         Assertions.assertEquals(userService.getUserId("zhdun", "123456").get(), 2);
         Assertions.assertEquals(userService.getUserId("adamada", "rftgyhyuj").get(), 3);
+
+        runCommand("src/test/clear_database.sh");
     }
 
     void runCommand(String file) throws IOException {

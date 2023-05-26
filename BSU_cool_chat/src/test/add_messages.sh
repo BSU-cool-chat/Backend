@@ -30,4 +30,4 @@ echo ${password} | sudo -S -u postgres psql -d $database -U postgres -c "INSERT 
 echo ${password} | sudo -S -u postgres psql -d $database -U postgres -c "INSERT INTO messages VALUES  (12, 2, 3, 'Pe', TO_TIMESTAMP(1685134390));"
 
 Green='\033[0;32m'
-echo -e "${Green}Add users ${database} -- all right!\n"
+echo -e "${Green}Add messages ${database} -- all right!\n"

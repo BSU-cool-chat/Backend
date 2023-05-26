@@ -118,6 +118,8 @@ class MessageServiceImplTest {
         Assertions.assertEquals(all_messages.get(1).getText(), "Ok");
         Assertions.assertEquals(all_messages.get(2).getText(), "Re");
         Assertions.assertEquals(all_messages.get(3).getText(), "Pe");
+
+        runCommand("src/test/clear_database.sh");
     }
 
     @Test
@@ -248,6 +250,8 @@ class MessageServiceImplTest {
         Assertions.assertEquals(all_messages.get(2).getText(), "I am fine. What are doing tonight?");
         Assertions.assertEquals(all_messages.get(3).getText(), "I am coding a project:)");
         Assertions.assertEquals(all_messages.get(4).getText(), "Me too!");
+
+        runCommand("src/test/clear_database.sh");
     }
 
     void runCommand(String file) throws IOException {
