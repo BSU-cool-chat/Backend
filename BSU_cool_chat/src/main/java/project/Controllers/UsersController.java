@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import project.Exceptions.DuplicateLoginException;
+import project.Exceptions.UserNotFoundException;
 import project.service.User.UserService;
 import project.models.User;
 
@@ -25,7 +26,11 @@ public class UsersController {
                        @PathVariable("another_user_id") int another_user_id,
                        Model model) {
         model.addAttribute("user_id", user_id);
-        model.addAttribute("supervising_user_info", userService.getUser(another_user_id).getUserInfo());
+        try {
+            model.addAttribute("supervising_user_info", userService.getUser(another_user_id).getUserInfo());
+        } catch (UserNotFoundException e) {
+            throw new RuntimeException(e);
+        }
         return "users/show";
     }
 

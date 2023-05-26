@@ -1,6 +1,7 @@
 package project.service.User;
 
 import project.Exceptions.DuplicateLoginException;
+import project.Exceptions.UserNotFoundException;
 import project.models.User;
 
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.Optional;
 
 public interface UserService {
 
-    Iterable<User> getAllUsers();
+    List<User> getAllUsers();
 
     void createUser(User user) throws DuplicateLoginException;
 
@@ -16,7 +17,7 @@ public interface UserService {
 
     void updateUser(User user);
 
-    User getUser(int id);
+    User getUser(int id) throws UserNotFoundException;
 
     Optional<Integer> getUserId(String login, String password);
 

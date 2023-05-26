@@ -2,6 +2,7 @@ package project.service.Message;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import project.Exceptions.UserNotFoundException;
 import project.dao.Message.MessageDAO;
 import project.dao.User.UserDAO;
 import project.models.Message;
@@ -23,7 +24,13 @@ public class MessageServiceImpl implements MessageService {
     public List<Message> getAllMessages(int chat_id) {
         return messageDAO.getAllMessages(chat_id)
                 .stream()
-                .peek(message -> message.setSender(userDAO.getUser(message.getSender().getId())))
+                .peek(message -> {
+                    try {
+                        message.setSender(userDAO.getUser(message.getSender().getId()));
+                    } catch (UserNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                })
                 .toList();
     }
 

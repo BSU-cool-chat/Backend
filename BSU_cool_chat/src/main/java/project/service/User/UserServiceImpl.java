@@ -3,6 +3,7 @@ package project.service.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import project.Exceptions.DuplicateLoginException;
+import project.Exceptions.UserNotFoundException;
 import project.dao.Chat.ChatDAO;
 import project.dao.User.UserDAO;
 import project.models.User;
@@ -42,7 +43,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUser(int id) {
+    public User getUser(int id) throws UserNotFoundException {
         return userDAO.getUser(id);
     }
 
@@ -53,7 +54,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAllChatMembers(int chat_id) {
-        return chatDAO.getAllChatMembers(chat_id).stream().map(id -> userDAO.getUser(id)).toList();
+        return chatDAO.getAllChatMembers(chat_id).stream().map(id -> {
+            try {
+                return userDAO.getUser(id);
+            } catch (UserNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }).toList();
     }
 
     @Override

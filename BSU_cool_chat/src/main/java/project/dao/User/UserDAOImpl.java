@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import project.Exceptions.DuplicateLoginException;
+import project.Exceptions.UserNotFoundException;
 import project.dao.IdMapper;
 import project.models.User;
 
@@ -44,6 +45,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     public void deleteUser(int id) {
+//        TODO
         throw new RuntimeException("no such method implementation");
     }
 
@@ -51,11 +53,11 @@ public class UserDAOImpl implements UserDAO {
         throw new RuntimeException("no such method implementation");
     }
 
-    public User getUser(int id) {
+    public User getUser(int id) throws UserNotFoundException {
         return getAllUsers().stream()
                 .filter(user -> user.getId() == id)
                 .findAny()
-                .orElseThrow(() -> new RuntimeException(id + "not found"));
+                .orElseThrow(() -> new UserNotFoundException(id + "not found"));
     }
 
     public Optional<Integer> getUserId(String login, String password) {

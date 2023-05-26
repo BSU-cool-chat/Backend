@@ -1,6 +1,7 @@
 package project.dao.User;
 
 import project.Exceptions.DuplicateLoginException;
+import project.Exceptions.UserNotFoundException;
 import project.models.User;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public interface UserDAO {
 
     void updateUser(User user);
 
-    User getUser(int id);
+    User getUser(int id) throws UserNotFoundException;
 
     Optional<Integer> getUserId(String login, String password);
     List<User> getAllSimilarUsers(String searching_login);
