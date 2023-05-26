@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import project.Exceptions.UserNotFoundException;
 import project.service.Chat.ChatService;
 import project.service.Message.MessageService;
 import project.service.User.UserService;
@@ -62,7 +63,11 @@ public class ChatsController {
                               @PathVariable("chat_id") int chat_id,
                               @ModelAttribute("message") Message message) {
         System.out.println("New message from user " + user_id + " in chat " + chat_id + "\n Message: " + message.getText());
-        message.setSender(userService.getUser(user_id));
+        try {
+            message.setSender(userService.getUser(user_id));
+        } catch (UserNotFoundException e) {
+            throw new RuntimeException(e);
+        }
         message.setChatId(chat_id);
         messageService.createMessage(message);
         return "redirect:/chats/" + user_id + "/chat/" + chat_id;

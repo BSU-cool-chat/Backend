@@ -2,6 +2,7 @@ package project.service.Chat;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import project.Exceptions.UserNotFoundException;
 import project.dao.Chat.ChatDAO;
 import project.models.Chat;
 import project.models.ChatInfo;
@@ -50,6 +51,10 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public Chat getOrCreateStandardChat(int user1_id, int user2_id) {
-        return chatDAO.getOrCreateStandardChat(userService.getUser(user1_id), userService.getUser(user2_id));
+        try {
+            return chatDAO.getOrCreateStandardChat(userService.getUser(user1_id), userService.getUser(user2_id));
+        } catch (UserNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
