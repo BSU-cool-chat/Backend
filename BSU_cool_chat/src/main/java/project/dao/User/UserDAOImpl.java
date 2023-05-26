@@ -21,6 +21,11 @@ public class UserDAOImpl implements UserDAO {
     }
 
     public List<User> getAllUsers() {
+        var temp = jdbcTemplate.query("""
+                SELECT users.id AS id, login, password, name, sex, age, additional_info
+                FROM users
+                    INNER JOIN users_info on users.id = users_info.user_id;
+                """, new UserMapper()).stream().toList();
         return jdbcTemplate.query("""
                 SELECT users.id, login, password, name, sex, age, additional_info
                 FROM users
@@ -29,6 +34,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     public void createUser(User user) throws DuplicateLoginException {
+        var list = getAllUsers();
         if (getAllUsers().stream().anyMatch(existing_user -> existing_user.getLogin().equals(user.getLogin()))) {
             throw new DuplicateLoginException("User with login \"" + user.getLogin() + "\" already exists");
         }

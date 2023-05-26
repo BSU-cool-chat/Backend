@@ -1,9 +1,9 @@
 #!/bin/bash
 
-database="bsu_cool_chat"
-sudo -u postgres psql -U postgres -c "DROP DATABASE IF EXISTS bsu_cool_chat;"
+database="bsu_cool_chat_db"
+sudo -u postgres psql -U postgres -c "DROP DATABASE IF EXISTS ${database};"
 
-sudo -u postgres psql -U postgres -c "CREATE DATABASE bsu_cool_chat;"
+sudo -u postgres psql -U postgres -c "CREATE DATABASE ${database};"
 
 
 sudo -u postgres psql -d $database -U postgres -c "CREATE TABLE IF NOT EXISTS users(
