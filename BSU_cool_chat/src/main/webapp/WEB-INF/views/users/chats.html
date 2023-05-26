@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>All messages</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/static/css/chats.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/chats.css}" />\
 </head>
 <body>
+<div class="top">
 <div class="options">
     <form class="form" th:method="GET" th:action="@{/users/__${user_id}__/supervise/__${user_id}__}">
         <input class="button" type="submit" value="Profile"/>
@@ -14,6 +15,8 @@
         <input class="button" type="submit" value="Search"/>
     </form>
 </div>
+</div>
+<p>&nbsp;</p>
 <center>
     <div class="chat" th:each="chat_info : ${chats_info}">
         <form th:method="GET" th:action="@{${chat_info.getLink('__${user_id}__')}}">
