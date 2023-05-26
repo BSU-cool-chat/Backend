@@ -18,7 +18,8 @@ public class SingletonLogger {
                 handler.setFormatter(formatter);
 
                 logger.addHandler(handler);
-                logger.setUseParentHandlers(false);
+//                отключить вывод на консоль
+//                logger.setUseParentHandlers(false);
                 logger.setLevel(Level.ALL);
                 logger.info("Logger setup finished successfully");
             } catch (IOException e) {
