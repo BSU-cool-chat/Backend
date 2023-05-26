@@ -42,8 +42,6 @@ public class ChatDAO implements ChatService {
                         JOIN chats ON chat_id = id
                 WHERE member_id = ?;""", new ChatMapper(), user_id).stream().toList());
         chats.forEach(this::FillChatWithMessagesAndMembers);
-        chats.sort(Comparator.comparing(o -> o.getLastMessage().getDispatchTime()));
-        Collections.reverse(chats);
         return chats;
     }
 
