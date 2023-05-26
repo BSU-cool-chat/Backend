@@ -4,29 +4,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import project.Exceptions.DuplicateLoginException;
-import project.config.databases.DatabaseInitializer;
-import project.dao.Chat.IdMapper;
+import project.dao.IdMapper;
 import project.models.User;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
 @Component
-public class UserDAO implements UserService {
-    private final DatabaseInitializer databaseInitializer;
+public class UserDAOImpl implements UserDAO {
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public UserDAO(DatabaseInitializer databaseInitializer, JdbcTemplate jdbcTemplate) {
-        this.databaseInitializer = databaseInitializer;
+    public UserDAOImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-    }
-
-    @PostConstruct
-    void postConstruct() {
-        databaseInitializer.initDatabases();
     }
 
     public List<User> getAllUsers() {
@@ -74,18 +65,6 @@ public class UserDAO implements UserService {
         return searching_user.map(user -> Math.toIntExact(user.getId()));
     }
 
-    @Override
-    public List<User> getAllChatMembers(int chat_id) {
-        return jdbcTemplate.query(
-                """
-                        SELECT users.id, login, password, name, sex, age, additional_info
-                        FROM chats_members
-                                INNER JOIN users ON member_id = users.id
-                                INNER JOIN users_info ON users.id = users_info.user_id
-                        WHERE chat_id = ?;""",
-                new UserMapper(),
-                chat_id).stream().toList();
-    }
 
     @Override
     public List<User> getAllSimilarUsers(String searching_login) {

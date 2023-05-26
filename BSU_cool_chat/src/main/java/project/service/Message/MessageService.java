@@ -1,4 +1,4 @@
-package project.dao.Message;
+package project.service.Message;
 
 import project.models.Message;
 

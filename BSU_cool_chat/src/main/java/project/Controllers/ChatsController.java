@@ -7,8 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import project.dao.Chat.ChatService;
-import project.dao.User.UserService;
+import project.service.Chat.ChatService;
+import project.service.Message.MessageService;
+import project.service.User.UserService;
 import project.models.Chat;
 import project.models.Message;
 
@@ -16,11 +17,13 @@ import project.models.Message;
 public class ChatsController {
     private final ChatService chatService;
     private final UserService userService;
+    private final MessageService messageService;
 
     @Autowired
-    public ChatsController(ChatService chatService, UserService userService) {
+    public ChatsController(ChatService chatService, UserService userService, MessageService messageService) {
         this.chatService = chatService;
         this.userService = userService;
+        this.messageService = messageService;
     }
 
     @GetMapping("/chats/{user_id}")
@@ -56,7 +59,7 @@ public class ChatsController {
         System.out.println("New message from user " + user_id + " in chat " + chat_id + "\n Message: " + message.getText());
         message.setSender(userService.getUser(user_id));
         message.setChatId(chat_id);
-        chatService.createMessage(message);
+        messageService.createMessage(message);
         return "redirect:/chats/" + user_id + "/chat/" + chat_id;
     }
 }

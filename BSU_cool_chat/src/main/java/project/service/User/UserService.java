@@ -1,4 +1,4 @@
-package project.dao.User;
+package project.service.User;
 
 import project.Exceptions.DuplicateLoginException;
 import project.models.User;

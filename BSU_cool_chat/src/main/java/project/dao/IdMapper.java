@@ -1,4 +1,4 @@
-package project.dao.Chat;
+package project.dao;
 
 
 import org.springframework.jdbc.core.RowMapper;

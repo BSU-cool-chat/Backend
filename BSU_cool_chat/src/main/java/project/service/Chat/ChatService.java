@@ -1,4 +1,4 @@
-package project.dao.Chat;
+package project.service.Chat;
 
 import project.models.Chat;
 import project.models.ChatInfo;
@@ -13,6 +13,4 @@ public interface ChatService {
 
     Chat getChat(int chat_id);
     Chat getOrCreateStandardChat(int user1_id, int user2_id);
-
-    void createMessage(Message message);
 }
