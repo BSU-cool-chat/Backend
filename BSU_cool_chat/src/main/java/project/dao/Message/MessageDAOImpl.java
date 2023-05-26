@@ -34,9 +34,17 @@ public class MessageDAOImpl implements MessageDAO {
 
     @Override
     public void createMessage(Message message) {
-        jdbcTemplate.update("""
-                INSERT INTO messages(id, sender_id, chat_id, text, dispatch_time)
-                VALUES (?, ?, ?, ?, now());
-                """, message.getId(), message.getSender().getId(), message.getChatId(), message.getText());
+        boolean need = true;
+        while (need) {
+            need = false;
+            try {
+                jdbcTemplate.update("""
+                INSERT INTO messages(sender_id, chat_id, text, dispatch_time)
+                VALUES (?, ?, ?, now());
+                """, message.getSender().getId(), message.getChatId(), message.getText());
+            } catch (Exception e) {
+                need = true;
+            }
+        }
     }
 }

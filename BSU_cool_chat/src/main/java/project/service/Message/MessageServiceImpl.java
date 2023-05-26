@@ -14,7 +14,7 @@ public class MessageServiceImpl implements MessageService {
     UserDAO userDAO;
 
     @Autowired
-    MessageServiceImpl(MessageDAO messageDAO, UserDAO userDAO) {
+    public MessageServiceImpl(MessageDAO messageDAO, UserDAO userDAO) {
         this.messageDAO = messageDAO;
         this.userDAO = userDAO;
     }

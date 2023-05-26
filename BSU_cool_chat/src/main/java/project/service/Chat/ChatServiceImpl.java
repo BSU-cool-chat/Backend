@@ -22,7 +22,7 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Autowired
-    ChatServiceImpl(ChatDAO chatDAO, MessageService messageService, UserService userService) {
+    public ChatServiceImpl(ChatDAO chatDAO, MessageService messageService, UserService userService) {
         this.chatDAO = chatDAO;
         this.messageService = messageService;
         this.userService = userService;

@@ -30,9 +30,9 @@ class UserServiceImplTest {
 
         Assertions.assertEquals(all_users.size(), 3);
 
-        Assertions.assertEquals(all_users.get(0).getId(), 1);
-        Assertions.assertEquals(all_users.get(1).getId(), 2);
-        Assertions.assertEquals(all_users.get(2).getId(), 3);
+        Assertions.assertEquals(all_users.get(0).getId(), 0);
+        Assertions.assertEquals(all_users.get(1).getId(), 1);
+        Assertions.assertEquals(all_users.get(2).getId(), 2);
 
         Assertions.assertEquals(all_users.get(0).getLogin(), "adamenko");
         Assertions.assertEquals(all_users.get(1).getLogin(), "zhdun");
@@ -42,9 +42,9 @@ class UserServiceImplTest {
         Assertions.assertEquals(all_users.get(1).getPassword(), "123456");
         Assertions.assertEquals(all_users.get(2).getPassword(), "rftgyhyuj");
 
-        Assertions.assertEquals(all_users.get(0).getUserInfo().getId(), 1);
-        Assertions.assertEquals(all_users.get(1).getUserInfo().getId(), 2);
-        Assertions.assertEquals(all_users.get(2).getUserInfo().getId(), 3);
+        Assertions.assertEquals(all_users.get(0).getUserInfo().getId(), 0);
+        Assertions.assertEquals(all_users.get(1).getUserInfo().getId(), 1);
+        Assertions.assertEquals(all_users.get(2).getUserInfo().getId(), 2);
 
         Assertions.assertEquals(all_users.get(0).getUserInfo().getLogin(), "adamenko");
         Assertions.assertEquals(all_users.get(1).getUserInfo().getLogin(), "zhdun");
@@ -64,6 +64,8 @@ class UserServiceImplTest {
                 "Sex\tmale\n" +
                 "Age\t3\n" +
                 "AAdditionalInfo\tbaby\n");
+
+        runCommand("src/test/clear_database.sh");
     }
 
     @Test
@@ -71,7 +73,7 @@ class UserServiceImplTest {
         runCommand("src/test/empty_database.sh");
 
         UserServiceImpl userService = setUp();
-        userService.createUser(new User(1, "adamenko", "qwerty", "adamenko", "male", 19, "YSDA 1st year student, BSU 2nd year student, swimmer"));
+        userService.createUser(new User(0, "adamenko", "qwerty", "adamenko", "male", 19, "YSDA 1st year student, BSU 2nd year student, swimmer"));
 
         var all_users = userService.getAllUsers();
 
@@ -102,9 +104,9 @@ class UserServiceImplTest {
         var all_users = userService.getAllUsers();
         Assertions.assertEquals(all_users.size(), 3);
 
-        Assertions.assertEquals(all_users.get(0).getId(), 1);
-        Assertions.assertEquals(all_users.get(1).getId(), 2);
-        Assertions.assertEquals(all_users.get(2).getId(), 3);
+        Assertions.assertEquals(all_users.get(0).getId(), 0);
+        Assertions.assertEquals(all_users.get(1).getId(), 1);
+        Assertions.assertEquals(all_users.get(2).getId(), 2);
 
         Assertions.assertEquals(all_users.get(0).getLogin(), "adamenko");
         Assertions.assertEquals(all_users.get(1).getLogin(), "zhdun");
@@ -114,9 +116,9 @@ class UserServiceImplTest {
         Assertions.assertEquals(all_users.get(1).getPassword(), "123456");
         Assertions.assertEquals(all_users.get(2).getPassword(), "rftgyhyuj");
 
-        Assertions.assertEquals(all_users.get(0).getUserInfo().getId(), 1);
-        Assertions.assertEquals(all_users.get(1).getUserInfo().getId(), 2);
-        Assertions.assertEquals(all_users.get(2).getUserInfo().getId(), 3);
+        Assertions.assertEquals(all_users.get(0).getUserInfo().getId(), 0);
+        Assertions.assertEquals(all_users.get(1).getUserInfo().getId(), 1);
+        Assertions.assertEquals(all_users.get(2).getUserInfo().getId(), 2);
 
         Assertions.assertEquals(all_users.get(0).getUserInfo().getLogin(), "adamenko");
         Assertions.assertEquals(all_users.get(1).getUserInfo().getLogin(), "zhdun");
@@ -152,9 +154,9 @@ class UserServiceImplTest {
         var all_users = userService.getAllUsers();
         Assertions.assertEquals(all_users.size(), 3);
 
-        Assertions.assertEquals(all_users.get(0).getId(), 1);
-        Assertions.assertEquals(all_users.get(1).getId(), 2);
-        Assertions.assertEquals(all_users.get(2).getId(), 3);
+        Assertions.assertEquals(all_users.get(0).getId(), 0);
+        Assertions.assertEquals(all_users.get(1).getId(), 1);
+        Assertions.assertEquals(all_users.get(2).getId(), 2);
 
         Assertions.assertEquals(all_users.get(0).getLogin(), "adamenko");
         Assertions.assertEquals(all_users.get(1).getLogin(), "zhdun");
@@ -164,9 +166,9 @@ class UserServiceImplTest {
         Assertions.assertEquals(all_users.get(1).getPassword(), "123456");
         Assertions.assertEquals(all_users.get(2).getPassword(), "rftgyhyuj");
 
-        Assertions.assertEquals(all_users.get(0).getUserInfo().getId(), 1);
-        Assertions.assertEquals(all_users.get(1).getUserInfo().getId(), 2);
-        Assertions.assertEquals(all_users.get(2).getUserInfo().getId(), 3);
+        Assertions.assertEquals(all_users.get(0).getUserInfo().getId(), 0);
+        Assertions.assertEquals(all_users.get(1).getUserInfo().getId(), 1);
+        Assertions.assertEquals(all_users.get(2).getUserInfo().getId(), 2);
 
         Assertions.assertEquals(all_users.get(0).getUserInfo().getLogin(), "adamenko");
         Assertions.assertEquals(all_users.get(1).getUserInfo().getLogin(), "zhdun");
@@ -202,12 +204,12 @@ class UserServiceImplTest {
 
         Assertions.assertEquals(all_users.size(), 3);
 
-        var user = userService.getUser(1);
+        var user = userService.getUser(0);
 
-        Assertions.assertEquals(user.getId(), 1);
+        Assertions.assertEquals(user.getId(), 0);
         Assertions.assertEquals(user.getLogin(), "adamenko");
         Assertions.assertEquals(user.getPassword(), "qwerty");
-        Assertions.assertEquals(user.getUserInfo().getId(), 1);
+        Assertions.assertEquals(user.getUserInfo().getId(), 0);
         Assertions.assertEquals(user.getUserInfo().getLogin(), "adamenko");
         Assertions.assertEquals(user.getUserInfo().getAllInfo(), "Name\tadamenko\n" +
                 "Sex\tmale\n" +
@@ -229,9 +231,9 @@ class UserServiceImplTest {
         Assertions.assertEquals(all_users.size(), 3);
 
 
-        Assertions.assertEquals(userService.getUserId("adamenko", "qwerty").get(), 1);
-        Assertions.assertEquals(userService.getUserId("zhdun", "123456").get(), 2);
-        Assertions.assertEquals(userService.getUserId("adamada", "rftgyhyuj").get(), 3);
+        Assertions.assertEquals(userService.getUserId("adamenko", "qwerty").get(), 0);
+        Assertions.assertEquals(userService.getUserId("zhdun", "123456").get(), 1);
+        Assertions.assertEquals(userService.getUserId("adamada", "rftgyhyuj").get(), 2);
 
         runCommand("src/test/clear_database.sh");
     }
