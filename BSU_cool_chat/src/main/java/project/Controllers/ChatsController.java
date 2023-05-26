@@ -13,6 +13,9 @@ import project.service.User.UserService;
 import project.models.Chat;
 import project.models.Message;
 
+import java.util.Collections;
+import java.util.Comparator;
+
 @Controller
 public class ChatsController {
     private final ChatService chatService;
@@ -28,7 +31,9 @@ public class ChatsController {
 
     @GetMapping("/chats/{user_id}")
     public String displayAllUsersChats(@PathVariable("user_id") int user_id, Model model) {
-        model.addAttribute("chats_info", chatService.getAllUsersChatsInfo(user_id));
+        var chat = new java.util.ArrayList<>(chatService.getAllUsersChatsInfo(user_id).stream().sorted(Comparator.comparing(o -> o.getLastMessage().getDispatchTime())).toList());
+        Collections.reverse(chat);
+        model.addAttribute("chats_info", chat);
         model.addAttribute("id", user_id);
         return "users/chats";
     }
@@ -46,8 +51,8 @@ public class ChatsController {
 
     @PostMapping("/chats/{user_id}/new_standard_chat/{another_user_id}")
     public String createUsersChat(@PathVariable("user_id") int user_id,
-                                   @PathVariable("another_user_id") int another_user_id,
-                                   Model model) {
+                                  @PathVariable("another_user_id") int another_user_id,
+                                  Model model) {
         Chat chat = chatService.getOrCreateStandardChat(user_id, another_user_id);
         return "redirect:/chats/" + user_id + "/chat/" + chat.getId();
     }
