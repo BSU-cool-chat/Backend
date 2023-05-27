@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import project.Exceptions.DuplicateLoginException;
+import project.Exceptions.UserNotFoundException;
 import project.dao.Chat.ChatDAOImpl;
 import project.dao.User.UserDAOImpl;
 import project.models.User;
@@ -194,7 +195,7 @@ class UserServiceImplTest {
 
 
     @Test
-    void getUser() throws IOException {
+    void getUser() throws IOException, UserNotFoundException {
         runCommand("src/test/empty_database.sh");
         runCommand("src/test/add_users.sh");
 
