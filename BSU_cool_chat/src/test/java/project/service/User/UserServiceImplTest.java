@@ -205,7 +205,12 @@ class UserServiceImplTest {
 
         Assertions.assertEquals(all_users.size(), 3);
 
-        var user = userService.getUser(0);
+        User user;
+        try {
+            user = userService.getUser(0);
+        } catch (UserNotFoundException e) {
+            throw new RuntimeException(e);
+        }
 
         Assertions.assertEquals(user.getId(), 0);
         Assertions.assertEquals(user.getLogin(), "adamenko");
