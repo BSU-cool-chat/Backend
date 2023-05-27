@@ -10,6 +10,7 @@ import project.Exceptions.DuplicateLoginException;
 import project.Exceptions.UserNotFoundException;
 import project.service.User.UserService;
 import project.models.User;
+import project.utils.SingletonLogger;
 
 @Controller
 @RequestMapping("/users")
@@ -38,6 +39,7 @@ public class UsersController {
     public String newUser(Model model) {
         model.addAttribute("user", new User());
         model.addAttribute("is_login_duplicated", false);
+        SingletonLogger.getInstance().config("New user");
         return "users/new";
     }
 
@@ -63,6 +65,7 @@ public class UsersController {
                          Model model) {
         model.addAttribute("user_id", user_id);
         model.addAttribute("searching_user", new User());
+        SingletonLogger.getInstance().config("UserSearch user_id: " + String.valueOf(user_id));
         return "users/search";
     }
 
