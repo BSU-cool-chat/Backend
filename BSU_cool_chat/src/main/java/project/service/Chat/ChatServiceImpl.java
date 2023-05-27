@@ -2,6 +2,7 @@ package project.service.Chat;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import project.Exceptions.UserNotFoundException;
 import project.dao.Chat.ChatDAO;
 import project.models.Chat;
@@ -30,11 +31,13 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
+    @Transactional
     public List<Chat> getAllUsersChats(int user_id) {
         return chatDAO.getAllUsersChats(user_id).stream().peek(this::FillChatWithMessagesAndMembers).toList();
     }
 
     @Override
+    @Transactional
     public List<ChatInfo> getAllUsersChatsInfo(int user_id) {
         return getAllUsersChats(user_id).stream()
                 .filter(chat -> !chat.getMessages().isEmpty())
@@ -43,6 +46,7 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
+    @Transactional
     public Chat getChat(int chat_id) {
         var chat = chatDAO.getChat(chat_id);
         FillChatWithMessagesAndMembers(chat);
@@ -50,6 +54,7 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
+    @Transactional
     public Chat getOrCreateStandardChat(int user1_id, int user2_id) {
         try {
             return chatDAO.getOrCreateStandardChat(userService.getUser(user1_id), userService.getUser(user2_id));
