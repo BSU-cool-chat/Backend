@@ -255,13 +255,13 @@ class MessageServiceImplTest {
     }
 
     void runCommand(String file) throws IOException {
-        ProcessBuilder pb = new ProcessBuilder(file, password_for_sudo);
-        Process p = pb.start();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(p.getErrorStream()));
-        String line = null;
-        while ((line = reader.readLine()) != null) {
-            System.out.println(line);
-        }
+//        ProcessBuilder pb = new ProcessBuilder(file, password_for_sudo);
+//        Process p = pb.start();
+//        BufferedReader reader = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+//        String line = null;
+//        while ((line = reader.readLine()) != null) {
+//            System.out.println(line);
+//        }
     }
 
     MessageServiceImpl setUp() {
