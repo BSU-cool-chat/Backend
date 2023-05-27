@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import project.Exceptions.DuplicateLoginException;
+import project.Exceptions.UserNotFoundException;
 import project.dao.Chat.ChatDAOImpl;
 import project.dao.User.UserDAOImpl;
 import project.models.User;
@@ -204,7 +205,12 @@ class UserServiceImplTest {
 
         Assertions.assertEquals(all_users.size(), 3);
 
-        var user = userService.getUser(0);
+        User user;
+        try {
+            user = userService.getUser(0);
+        } catch (UserNotFoundException e) {
+            throw new RuntimeException(e);
+        }
 
         Assertions.assertEquals(user.getId(), 0);
         Assertions.assertEquals(user.getLogin(), "adamenko");
