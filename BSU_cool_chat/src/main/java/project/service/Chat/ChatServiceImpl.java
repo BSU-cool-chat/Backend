@@ -32,14 +32,14 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     @Transactional
-    public List<Chat> getAllUsersChats(int user_id) {
+    public List<Chat> getAllUserChats(int user_id) {
         return chatDAO.getAllUsersChats(user_id).stream().peek(this::FillChatWithMessagesAndMembers).toList();
     }
 
     @Override
     @Transactional
     public List<ChatInfo> getAllUsersChatsInfo(int user_id) {
-        return getAllUsersChats(user_id).stream()
+        return getAllUserChats(user_id).stream()
                 .filter(chat -> !chat.getMessages().isEmpty())
                 .map(Chat::getChatInfo)
                 .toList();

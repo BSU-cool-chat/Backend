@@ -2,12 +2,11 @@ package project.service.Chat;
 
 import project.models.Chat;
 import project.models.ChatInfo;
-import project.models.Message;
 
 import java.util.List;
 
 public interface ChatService {
-    List<Chat> getAllUsersChats(int user_id);
+    List<Chat> getAllUserChats(int user_id);
 
     List<ChatInfo> getAllUsersChatsInfo(int user_id);
 
