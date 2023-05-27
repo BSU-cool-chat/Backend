@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class UserServiceImplTest {
 
-    final String password_for_sudo = "123852951";
+    final String password_for_sudo = "SUDO_PASSWORD";
 
     @Test
     void getAllUsers() throws IOException {

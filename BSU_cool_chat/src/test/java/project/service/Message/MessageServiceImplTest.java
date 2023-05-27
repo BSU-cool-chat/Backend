@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MessageServiceImplTest {
 
-    final String password_for_sudo = "123852951";
+    final String password_for_sudo = "SUDO_PASSWORD";
 
     @Test
     void getAllMessages() throws IOException {

@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ChatServiceImplTest {
 
-    final String password_for_sudo = "123852951";
+    final String password_for_sudo = "SUDO_PASSWORD";
 
     @Test
     void getAllUsersChats() throws IOException {
