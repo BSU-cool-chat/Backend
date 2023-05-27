@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import project.service.User.UserService;
 import project.models.User;
+import project.utils.SingletonLogger;
 
 @Controller
 public class RegisterController {
@@ -22,6 +23,7 @@ public class RegisterController {
     public String GreetingPage(Model model) {
         model.addAttribute("user", new User());
         model.addAttribute("is_login_mistake_occur", false);
+        SingletonLogger.getInstance().config("GreetingPage");
         return "registration/login_page";
     }
 
@@ -29,6 +31,7 @@ public class RegisterController {
     public String LogIn(@ModelAttribute("user") User user,
                         Model model) {
         var id = userService.getUserId(user.getLogin(), user.getPassword());
+        SingletonLogger.getInstance().config("LogIn user_id: " + String.valueOf(user.getId()));
         if (id.isEmpty()) {
             user.setPassword(null);
             model.addAttribute("user", user);

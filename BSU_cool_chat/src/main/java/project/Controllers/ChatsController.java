@@ -12,6 +12,7 @@ import project.service.Message.MessageService;
 import project.service.User.UserService;
 import project.models.Chat;
 import project.models.Message;
+import project.utils.SingletonLogger;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -35,6 +36,7 @@ public class ChatsController {
         Collections.reverse(chat);
         model.addAttribute("chats_info", chat);
         model.addAttribute("id", user_id);
+        SingletonLogger.getInstance().config("displayAllUsersChats " + " user_id: " + String.valueOf(user_id));
         return "users/chats";
     }
 
@@ -46,6 +48,7 @@ public class ChatsController {
         model.addAttribute("user_id", user_id);
         model.addAttribute("chat_id", chat_id);
         model.addAttribute("message", new Message());
+        SingletonLogger.getInstance().config("displayUsersChats chat_id: " + String.valueOf(chat_id) + " user_id: " + String.valueOf(user_id));
         return "users/chat";
     }
 
@@ -54,6 +57,7 @@ public class ChatsController {
                                   @PathVariable("another_user_id") int another_user_id,
                                   Model model) {
         Chat chat = chatService.getOrCreateStandardChat(user_id, another_user_id);
+        SingletonLogger.getInstance().config("createUsersChat " + " user_id: " + String.valueOf(user_id) + " another_user_id: " + String.valueOf(another_user_id));
         return "redirect:/chats/" + user_id + "/chat/" + chat.getId();
     }
 
@@ -65,6 +69,7 @@ public class ChatsController {
         message.setSender(userService.getUser(user_id));
         message.setChatId(chat_id);
         messageService.createMessage(message);
+        SingletonLogger.getInstance().config("sendMessage " + " user_id: " + String.valueOf(user_id) + " chat_id: " + String.valueOf(chat_id));
         return "redirect:/chats/" + user_id + "/chat/" + chat_id;
     }
 }

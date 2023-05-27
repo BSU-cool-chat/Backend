@@ -45,7 +45,12 @@ public class ChatDAOImpl implements ChatDAO {
         if (user1.getId() == user2.getId()) {
             throw new RuntimeException("Cannot create chat between the same users");
         }
-        var searching_result = jdbcTemplate.query("""
+        boolean need = true;
+        Optional<Chat> searching_result = null;
+        while (need) {
+            need = false;
+            try {
+                searching_result = jdbcTemplate.query("""
                 SELECT id AS chat_id, name, is_group_chat
                 FROM    (SELECT *
                         FROM chats_members
@@ -57,18 +62,33 @@ public class ChatDAOImpl implements ChatDAO {
                         ON q1.chat_id = q2.chat_id
                         INNER JOIN chats ON q1.chat_id = chats.id
                 WHERE is_group_chat = false;""", new ChatMapper(), user1.getId(), user2.getId()).stream().findAny();
+                return searching_result.orElseGet(() -> CreateStandardChat(user1, user2));
+            } catch (Exception e) {
+                need = true;
+            }
+        }
         return searching_result.orElseGet(() -> CreateStandardChat(user1, user2));
     }
 
     private Chat CreateStandardChat(User user1, User user2) {
         String chat_name = "Chat between " + user1.getLogin() + " and " + user2.getLogin();
-        int chat_id = jdbcTemplate.query("""
+
+        boolean need = true;
+        int chat_id = 0;
+        while (need) {
+            need = false;
+            try {
+                chat_id = jdbcTemplate.query("""
                 INSERT INTO chats(name, is_group_chat)
                 VALUES (?, ?)
                 RETURNING id""", new IdMapper(), chat_name, false).stream().findAny().get();
-        jdbcTemplate.update("""
+                jdbcTemplate.update("""
                 INSERT INTO chats_members(chat_id, member_id)
                 VALUES (?, ?), (?, ?)""", chat_id, user1.getId(), chat_id, user2.getId());
+            } catch (Exception e) {
+                need = true;
+            }
+        }
         Chat new_chat = new Chat(chat_id, chat_name, false);
         new_chat.setMembers(List.of(user1, user2));
         return new_chat;
