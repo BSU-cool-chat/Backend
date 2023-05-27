@@ -2,6 +2,7 @@ package project.service.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import project.Exceptions.DuplicateLoginException;
 import project.Exceptions.UserNotFoundException;
 import project.dao.Chat.ChatDAO;
@@ -23,36 +24,43 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public List<User> getAllUsers() {
         return userDAO.getAllUsers();
     }
 
     @Override
+    @Transactional
     public void createUser(User user) throws DuplicateLoginException {
         userDAO.createUser(user);
     }
 
     @Override
+    @Transactional
     public void deleteUser(int id) {
         userDAO.deleteUser(id);
     }
 
     @Override
+    @Transactional
     public void updateUser(User user) {
         userDAO.updateUser(user);
     }
 
     @Override
+    @Transactional
     public User getUser(int id) throws UserNotFoundException {
         return userDAO.getUser(id);
     }
 
     @Override
+    @Transactional
     public Optional<Integer> getUserId(String login, String password) {
         return userDAO.getUserId(login, password);
     }
 
     @Override
+    @Transactional
     public List<User> getAllChatMembers(int chat_id) {
         return chatDAO.getAllChatMembers(chat_id).stream().map(id -> {
             try {
@@ -64,6 +72,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public List<User> getAllSimilarUsers(String searching_login) {
         return userDAO.getAllSimilarUsers(searching_login);
     }
