@@ -3,14 +3,16 @@ package project.models;
 public class UserInfo {
     private int id;
     private String login;
+    private boolean isRoot;
     private String name;
     private String sex;
     private int age;
     private String additionalInfo;
 
-    public UserInfo(int id, String login, String name, String sex, int age, String additionalInfo) {
+    public UserInfo(int id, String login, boolean isRoot, String name, String sex, int age, String additionalInfo) {
         this.id = id;
         this.login = login;
+        this.isRoot = isRoot;
         this.name = name;
         this.sex = sex;
         this.age = age;
@@ -23,6 +25,10 @@ public class UserInfo {
 
     public String getLogin() {
         return login;
+    }
+
+    public boolean isRoot() {
+        return isRoot;
     }
 
     public String getAllInfo() {

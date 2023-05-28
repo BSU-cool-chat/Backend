@@ -12,6 +12,7 @@ public class UserMapper implements RowMapper<User> {
         return new User(resultSet.getInt("id"),
                 resultSet.getString("login"),
                 resultSet.getString("password"),
+                resultSet.getBoolean("is_root"),
                 resultSet.getString("name"),
                 resultSet.getString("sex"),
                 resultSet.getInt("age"),

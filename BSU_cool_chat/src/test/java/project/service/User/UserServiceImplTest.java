@@ -74,7 +74,7 @@ class UserServiceImplTest {
         runCommand("src/test/empty_database.sh");
 
         UserServiceImpl userService = setUp();
-        userService.createUser(new User(0, "adamenko", "qwerty", "adamenko", "male", 19, "YSDA 1st year student, BSU 2nd year student, swimmer"));
+        userService.createUser(new User(0, "adamenko", "qwerty", false, "adamenko", "male", 19, "YSDA 1st year student, BSU 2nd year student, swimmer"));
 
         var all_users = userService.getAllUsers();
 
@@ -150,7 +150,7 @@ class UserServiceImplTest {
 
         UserServiceImpl userService = setUp();
 
-        Assertions.assertThrows(RuntimeException.class, () -> userService.updateUser(new User(1, "adamenko", "qwerty", "adamenko", "male", 19, "YSDA 1st year student, BSU 2nd year student, swimmer")));
+        Assertions.assertThrows(RuntimeException.class, () -> userService.updateUser(new User(1, "adamenko", "qwerty", false, "adamenko", "male", 19, "YSDA 1st year student, BSU 2nd year student, swimmer")));
 
         var all_users = userService.getAllUsers();
         Assertions.assertEquals(all_users.size(), 3);
