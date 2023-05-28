@@ -1,7 +1,9 @@
 package project.service.Chat;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.runners.Parameterized;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import project.config.databases.DatabaseInitializerImplementation;
@@ -11,17 +13,22 @@ import project.dao.User.UserDAOImpl;
 import project.service.Message.MessageServiceImpl;
 import project.service.User.UserServiceImpl;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class ChatServiceImplTest {
 
     final String password_for_sudo = "SUDO_PASSWORD";
 
+//    @ParameterizedTest
+//    @ValueSource(ints = {10, 0, 15, 20})
+//    void givenAgeLessThan21_ShouldThrowException(int age) {
+//        assertThrows(Exception.class, () -> {
+//            example.isOlderThan21(age);
+//        });
+//    }
     @Test
+//    @DisplayName("Test")
+//    @Parameterized.Parameters
     void getAllUsersChats() throws IOException {
         runCommand("src/test/empty_database.sh");
         runCommand("src/test/add_users.sh");
@@ -29,7 +36,7 @@ class ChatServiceImplTest {
 
         ChatServiceImpl chatService = setUp();
 
-        var all_chats = chatService.getAllUsersChats(0);
+        var all_chats = chatService.getAllUserChats(0);
 
         Assertions.assertEquals(all_chats.size(), 2);
 

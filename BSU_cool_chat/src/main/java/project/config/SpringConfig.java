@@ -1,6 +1,8 @@
 package project.config;
 
+import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -18,6 +20,11 @@ import project.config.databases.DatabaseInitializer;
 import project.config.databases.DatabaseInitializerImplementation;
 
 import javax.sql.DataSource;
+import java.beans.PropertyVetoException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Properties;
 
 @Configuration
 @ComponentScan("project")
@@ -64,24 +71,35 @@ public class SpringConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+    public DataSource dataSource() throws PropertyVetoException {
+        ComboPooledDataSource cpds = new ComboPooledDataSource();
+        cpds.setDriverClass("org.postgresql.Driver"); //loads the jdbc driver
+        cpds.setJdbcUrl("jdbc:postgresql://localhost:5432/bsu_cool_chat_db");
+        cpds.setUser("postgres");
+        cpds.setPassword("postgres");
 
-        dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl("jdbc:postgresql://localhost:5432/bsu_cool_chat_db");
-        dataSource.setUsername("postgres");
-        dataSource.setPassword("postgres");
+        cpds.setMinPoolSize(5);
+        cpds.setAcquireIncrement(5);
+        cpds.setMaxPoolSize(20);
 
-        return dataSource;
+        return cpds;
+//        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+//
+//        dataSource.setDriverClassName("org.postgresql.Driver");
+//        dataSource.setUrl("jdbc:postgresql://localhost:5432/bsu_cool_chat_db");
+//        dataSource.setUsername("postgres");
+//        dataSource.setPassword("postgres");
+//
+//        return dataSource;
     }
 
     @Bean
-    public JdbcTemplate jdbcTemplate() {
+    public JdbcTemplate jdbcTemplate() throws PropertyVetoException {
         return new JdbcTemplate(dataSource());
     }
 
     @Bean
-    public PlatformTransactionManager txManager() {
+    public PlatformTransactionManager txManager() throws PropertyVetoException {
         return new DataSourceTransactionManager(dataSource());
     }
 }
