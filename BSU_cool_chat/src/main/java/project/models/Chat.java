@@ -1,7 +1,6 @@
 package project.models;
 
 import java.util.List;
-import java.util.Objects;
 
 public class Chat {
     private int id;
@@ -9,33 +8,6 @@ public class Chat {
     private boolean isGroupChat;
     private List<User> members;
     private List<Message> messages;
-
-    public String toString() {
-        StringBuilder answer = new StringBuilder("id: " + id + "\n" + "name: " + name + "\n" + "isGroupChat: " + isGroupChat + "\n" + "members: " + "\n");
-        for (int i = 0; i < members.size(); ++i) {
-            answer.append(i).append(": ").append(members.get(i).toString()).append("\n");
-        }
-        answer.append("\n");
-        answer.append("messages: \n");
-
-        for (int i = 0; i < messages.size(); ++i) {
-            answer.append(i).append(": ").append(messages.get(i).toString()).append("\n");
-        }
-
-        return answer.toString();
-    }
-
-    public int hashCode() {
-        return id;
-    }
-
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null) return false;
-        if (this.getClass() != o.getClass()) return false;
-        Chat info = (Chat) o;
-        return id == info.id && Objects.equals(name, info.name);
-    }
 
     public Chat(int id, String name, boolean isGroupChat) {
         this.id = id;
