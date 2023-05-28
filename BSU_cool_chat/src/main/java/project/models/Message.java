@@ -2,6 +2,7 @@ package project.models;
 
 import java.sql.Time;
 import java.util.Date;
+import java.util.Objects;
 
 public class Message {
     private int id;
@@ -18,6 +19,25 @@ public class Message {
         this.text = text;
         this.dispatchDate = dispatchDate;
         this.dispatchTime = dispatchTime;
+    }
+
+    public String toString() {
+        return "id: " + id + "\n" + "user: " + sender.toString() + "\n" +
+                "chat_id: " + chatId + "\n" + "text: " + text + "\n" + "date: " + dispatchDate.toString() +
+                "\n" + "time: " + dispatchTime.toString();
+    }
+
+    public int hashCode() {
+        return id;
+    }
+
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null) return false;
+        if (this.getClass() != o.getClass()) return false;
+        Message message = (Message) o;
+        return id == message.id && chatId == message.chatId && Objects.equals(sender, message.sender) && Objects.equals(text, message.text)
+                && Objects.equals(dispatchDate, message.dispatchDate) && Objects.equals(dispatchTime, message.dispatchTime);
     }
 
     public Message() {

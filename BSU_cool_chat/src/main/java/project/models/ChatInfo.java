@@ -1,5 +1,7 @@
 package project.models;
 
+import java.util.Objects;
+
 public class ChatInfo {
     private int chat_id;
     private String name;
@@ -9,6 +11,22 @@ public class ChatInfo {
         this.chat_id = chat_id;
         this.name = name;
         this.lastMessage = lastMessage;
+    }
+
+    public String toString() {
+        return "chat_id: " + chat_id + "\n" + "chat_name: " + name + "\n";
+    }
+
+    public int hashCode() {
+        return chat_id;
+    }
+
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null) return false;
+        if (this.getClass() != o.getClass()) return false;
+        ChatInfo info = (ChatInfo) o;
+        return chat_id == info.chat_id && Objects.equals(name, info.name) && Objects.equals(lastMessage, info.lastMessage);
     }
 
     public Message getLastMessage() {

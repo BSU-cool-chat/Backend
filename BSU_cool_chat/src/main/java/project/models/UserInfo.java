@@ -1,5 +1,7 @@
 package project.models;
 
+import java.util.Objects;
+
 public class UserInfo {
     private int id;
     private String login;
@@ -17,6 +19,23 @@ public class UserInfo {
         this.sex = sex;
         this.age = age;
         this.additionalInfo = additionalInfo;
+    }
+
+    public String toString() {
+        return "id : " + id + "\nlogin: " + login + "\nsex: " + sex + "\nage: " + age + "\nadditional_info: " + additionalInfo;
+    }
+
+    public int hashCode() {
+        return id;
+    }
+
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null) return false;
+        if (this.getClass() != o.getClass()) return false;
+        UserInfo user = (UserInfo) o;
+        return id == user.id && Objects.equals(login, user.login) && Objects.equals(name, user.name) &&
+                Objects.equals(sex, user.sex) && Objects.equals(age, user.age) && Objects.equals(additionalInfo, user.additionalInfo);
     }
 
     public int getId() {
