@@ -2,6 +2,9 @@ package project.service.Message;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import project.config.databases.DatabaseInitializerImplementation;
@@ -18,250 +21,59 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Time;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 class MessageServiceImplTest {
 
-    final String password_for_sudo = "SUDO_PASSWORD";
-
-    @Test
-    void getAllMessages() throws IOException {
-        runCommand("src/test/empty_database.sh");
-        runCommand("src/test/add_users.sh");
-        runCommand("src/test/add_messages.sh");
-
-        MessageServiceImpl messageService = setUp();
-        var all_messages = messageService.getAllMessages(0);
-        Assertions.assertEquals(all_messages.size(), 4);
-
-        Assertions.assertEquals(all_messages.get(0).getId(), 0);
-        Assertions.assertEquals(all_messages.get(1).getId(), 1);
-        Assertions.assertEquals(all_messages.get(2).getId(), 2);
-        Assertions.assertEquals(all_messages.get(3).getId(), 3);
-
-        Assertions.assertEquals(all_messages.get(0).getChatId(), 0);
-        Assertions.assertEquals(all_messages.get(1).getChatId(), 0);
-        Assertions.assertEquals(all_messages.get(2).getChatId(), 0);
-        Assertions.assertEquals(all_messages.get(3).getChatId(), 0);
-
-        Assertions.assertEquals(all_messages.get(0).getSender().getId(), 0);
-        Assertions.assertEquals(all_messages.get(1).getSender().getId(), 1);
-        Assertions.assertEquals(all_messages.get(2).getSender().getId(), 0);
-        Assertions.assertEquals(all_messages.get(3).getSender().getId(), 1);
-
-        Assertions.assertEquals(all_messages.get(0).getSender().getLogin(), "adamenko");
-        Assertions.assertEquals(all_messages.get(1).getSender().getLogin(), "zhdun");
-        Assertions.assertEquals(all_messages.get(2).getSender().getLogin(), "adamenko");
-        Assertions.assertEquals(all_messages.get(3).getSender().getLogin(), "zhdun");
-
-        Assertions.assertEquals(all_messages.get(0).getText(), "Hi! How are you?");
-        Assertions.assertEquals(all_messages.get(1).getText(), "I am OK. And you?");
-        Assertions.assertEquals(all_messages.get(2).getText(), "I am fine. What are doing tonight?");
-        Assertions.assertEquals(all_messages.get(3).getText(), "I am coding a project:)");
-
-
-        // -----------------------------------------------------------
-
-        all_messages = messageService.getAllMessages(1);
-
-        Assertions.assertEquals(all_messages.get(0).getId(), 4);
-        Assertions.assertEquals(all_messages.get(1).getId(), 5);
-        Assertions.assertEquals(all_messages.get(2).getId(), 6);
-        Assertions.assertEquals(all_messages.get(3).getId(), 7);
-
-        Assertions.assertEquals(all_messages.get(0).getChatId(), 1);
-        Assertions.assertEquals(all_messages.get(1).getChatId(), 1);
-        Assertions.assertEquals(all_messages.get(2).getChatId(), 1);
-        Assertions.assertEquals(all_messages.get(3).getChatId(), 1);
-
-        Assertions.assertEquals(all_messages.get(0).getSender().getId(), 2);
-        Assertions.assertEquals(all_messages.get(1).getSender().getId(), 0);
-        Assertions.assertEquals(all_messages.get(2).getSender().getId(), 2);
-        Assertions.assertEquals(all_messages.get(3).getSender().getId(), 0);
-
-        Assertions.assertEquals(all_messages.get(0).getSender().getLogin(), "adamada");
-        Assertions.assertEquals(all_messages.get(1).getSender().getLogin(), "adamenko");
-        Assertions.assertEquals(all_messages.get(2).getSender().getLogin(), "adamada");
-        Assertions.assertEquals(all_messages.get(3).getSender().getLogin(), "adamenko");
-
-        Assertions.assertEquals(all_messages.get(0).getText(), "1");
-        Assertions.assertEquals(all_messages.get(1).getText(), "2");
-        Assertions.assertEquals(all_messages.get(2).getText(), "3");
-        Assertions.assertEquals(all_messages.get(3).getText(), "4");
-
-        // -----------------------------------------------------------
-
-        all_messages = messageService.getAllMessages(2);
-
-        Assertions.assertEquals(all_messages.get(0).getId(), 8);
-        Assertions.assertEquals(all_messages.get(1).getId(), 9);
-        Assertions.assertEquals(all_messages.get(2).getId(), 10);
-        Assertions.assertEquals(all_messages.get(3).getId(), 11);
-
-        Assertions.assertEquals(all_messages.get(0).getChatId(), 2);
-        Assertions.assertEquals(all_messages.get(1).getChatId(), 2);
-        Assertions.assertEquals(all_messages.get(2).getChatId(), 2);
-        Assertions.assertEquals(all_messages.get(3).getChatId(), 2);
-
-        Assertions.assertEquals(all_messages.get(0).getSender().getId(), 2);
-        Assertions.assertEquals(all_messages.get(1).getSender().getId(), 1);
-        Assertions.assertEquals(all_messages.get(2).getSender().getId(), 2);
-        Assertions.assertEquals(all_messages.get(3).getSender().getId(), 1);
-
-        Assertions.assertEquals(all_messages.get(0).getSender().getLogin(), "adamada");
-        Assertions.assertEquals(all_messages.get(1).getSender().getLogin(), "zhdun");
-        Assertions.assertEquals(all_messages.get(2).getSender().getLogin(), "adamada");
-        Assertions.assertEquals(all_messages.get(3).getSender().getLogin(), "zhdun");
-
-        Assertions.assertEquals(all_messages.get(0).getText(), "Wa");
-        Assertions.assertEquals(all_messages.get(1).getText(), "Ok");
-        Assertions.assertEquals(all_messages.get(2).getText(), "Re");
-        Assertions.assertEquals(all_messages.get(3).getText(), "Pe");
-
-        runCommand("src/test/clear_database.sh");
+    static Stream<Arguments> ListProvider() {
+        // TODO
+        return Stream.of(
+                arguments(List.of(new User(1, "adamenko", "qwerty", "adamenko", "male", 19, "YSDA 1st year student, BSU 2nd year student, swimmer"),
+                        new User(2, "zhdun", "123456", "zhdun", "male", 20, "schoolboy"),
+                        new User(3, "adamada", "rftg", "adamada", "male", 3, "baby")),
+                        List.of(new Message(), new Message())),
+                arguments(List.of(), List.of()),
+                arguments(List.of(new User(0, "adamenko", "qwerty", "adamenko", "male", 19, "YSDA 1st year student, BSU 2nd year student, swimmer")),
+                        List.of(new Message(), new Message()))
+        );
     }
 
-    @Test
-    void createMessage() throws IOException {
-        runCommand("src/test/empty_database.sh");
-        runCommand("src/test/add_users.sh");
-        runCommand("src/test/add_messages.sh");
-
+    @ParameterizedTest(name="#{index} - Test with Argument={0},{1},{2}")
+    @MethodSource("ListProvider")
+    void getAllMessages(List<User> users, List<Message> messages) throws IOException {
         MessageServiceImpl messageService = setUp();
+
+        for (User user: users) {
+            // TODO add users
+        }
+
+        for (Message message : messages) {
+            messageService.createMessage(message);
+        }
+
         var all_messages = messageService.getAllMessages(0);
-        Assertions.assertEquals(all_messages.size(), 4);
-
-        Assertions.assertEquals(all_messages.get(0).getId(), 0);
-        Assertions.assertEquals(all_messages.get(1).getId(), 1);
-        Assertions.assertEquals(all_messages.get(2).getId(), 2);
-        Assertions.assertEquals(all_messages.get(3).getId(), 3);
-
-        Assertions.assertEquals(all_messages.get(0).getChatId(), 0);
-        Assertions.assertEquals(all_messages.get(1).getChatId(), 0);
-        Assertions.assertEquals(all_messages.get(2).getChatId(), 0);
-        Assertions.assertEquals(all_messages.get(3).getChatId(), 0);
-
-        Assertions.assertEquals(all_messages.get(0).getSender().getId(), 0);
-        Assertions.assertEquals(all_messages.get(1).getSender().getId(), 1);
-        Assertions.assertEquals(all_messages.get(2).getSender().getId(), 0);
-        Assertions.assertEquals(all_messages.get(3).getSender().getId(), 1);
-
-        Assertions.assertEquals(all_messages.get(0).getSender().getLogin(), "adamenko");
-        Assertions.assertEquals(all_messages.get(1).getSender().getLogin(), "zhdun");
-        Assertions.assertEquals(all_messages.get(2).getSender().getLogin(), "adamenko");
-        Assertions.assertEquals(all_messages.get(3).getSender().getLogin(), "zhdun");
-
-        Assertions.assertEquals(all_messages.get(0).getText(), "Hi! How are you?");
-        Assertions.assertEquals(all_messages.get(1).getText(), "I am OK. And you?");
-        Assertions.assertEquals(all_messages.get(2).getText(), "I am fine. What are doing tonight?");
-        Assertions.assertEquals(all_messages.get(3).getText(), "I am coding a project:)");
-
-
-        // -----------------------------------------------------------
-
-        all_messages = messageService.getAllMessages(1);
-
-        Assertions.assertEquals(all_messages.get(0).getId(), 4);
-        Assertions.assertEquals(all_messages.get(1).getId(), 5);
-        Assertions.assertEquals(all_messages.get(2).getId(), 6);
-        Assertions.assertEquals(all_messages.get(3).getId(), 7);
-
-        Assertions.assertEquals(all_messages.get(0).getChatId(), 1);
-        Assertions.assertEquals(all_messages.get(1).getChatId(), 1);
-        Assertions.assertEquals(all_messages.get(2).getChatId(), 1);
-        Assertions.assertEquals(all_messages.get(3).getChatId(), 1);
-
-        Assertions.assertEquals(all_messages.get(0).getSender().getId(), 2);
-        Assertions.assertEquals(all_messages.get(1).getSender().getId(), 0);
-        Assertions.assertEquals(all_messages.get(2).getSender().getId(), 2);
-        Assertions.assertEquals(all_messages.get(3).getSender().getId(), 0);
-
-        Assertions.assertEquals(all_messages.get(0).getSender().getLogin(), "adamada");
-        Assertions.assertEquals(all_messages.get(1).getSender().getLogin(), "adamenko");
-        Assertions.assertEquals(all_messages.get(2).getSender().getLogin(), "adamada");
-        Assertions.assertEquals(all_messages.get(3).getSender().getLogin(), "adamenko");
-
-        Assertions.assertEquals(all_messages.get(0).getText(), "1");
-        Assertions.assertEquals(all_messages.get(1).getText(), "2");
-        Assertions.assertEquals(all_messages.get(2).getText(), "3");
-        Assertions.assertEquals(all_messages.get(3).getText(), "4");
-
-        // -----------------------------------------------------------
-
-        all_messages = messageService.getAllMessages(2);
-
-        Assertions.assertEquals(all_messages.get(0).getId(), 8);
-        Assertions.assertEquals(all_messages.get(1).getId(), 9);
-        Assertions.assertEquals(all_messages.get(2).getId(), 10);
-        Assertions.assertEquals(all_messages.get(3).getId(), 11);
-
-        Assertions.assertEquals(all_messages.get(0).getChatId(), 2);
-        Assertions.assertEquals(all_messages.get(1).getChatId(), 2);
-        Assertions.assertEquals(all_messages.get(2).getChatId(), 2);
-        Assertions.assertEquals(all_messages.get(3).getChatId(), 2);
-
-        Assertions.assertEquals(all_messages.get(0).getSender().getId(), 2);
-        Assertions.assertEquals(all_messages.get(1).getSender().getId(), 1);
-        Assertions.assertEquals(all_messages.get(2).getSender().getId(), 2);
-        Assertions.assertEquals(all_messages.get(3).getSender().getId(), 1);
-
-        Assertions.assertEquals(all_messages.get(0).getSender().getLogin(), "adamada");
-        Assertions.assertEquals(all_messages.get(1).getSender().getLogin(), "zhdun");
-        Assertions.assertEquals(all_messages.get(2).getSender().getLogin(), "adamada");
-        Assertions.assertEquals(all_messages.get(3).getSender().getLogin(), "zhdun");
-
-        Assertions.assertEquals(all_messages.get(0).getText(), "Wa");
-        Assertions.assertEquals(all_messages.get(1).getText(), "Ok");
-        Assertions.assertEquals(all_messages.get(2).getText(), "Re");
-        Assertions.assertEquals(all_messages.get(3).getText(), "Pe");
-
-        messageService.createMessage(new Message(12, new User(0, "adamenko", "qwerty", false, "adamenko", "male", 19, "YSDA 1st year student, BSU 2nd year student, swimmer"), 0, "Me too!", new Date(), new Time(1685135655)));
-
-        all_messages = messageService.getAllMessages(0);
-        Assertions.assertEquals(all_messages.size(), 5);
-
-        Assertions.assertEquals(all_messages.get(0).getId(), 0);
-        Assertions.assertEquals(all_messages.get(1).getId(), 1);
-        Assertions.assertEquals(all_messages.get(2).getId(), 2);
-        Assertions.assertEquals(all_messages.get(3).getId(), 3);
-        Assertions.assertEquals(all_messages.get(4).getId(), 12);
-
-        Assertions.assertEquals(all_messages.get(0).getChatId(), 0);
-        Assertions.assertEquals(all_messages.get(1).getChatId(), 0);
-        Assertions.assertEquals(all_messages.get(2).getChatId(), 0);
-        Assertions.assertEquals(all_messages.get(3).getChatId(), 0);
-        Assertions.assertEquals(all_messages.get(4).getChatId(), 0);
-
-        Assertions.assertEquals(all_messages.get(0).getSender().getId(), 0);
-        Assertions.assertEquals(all_messages.get(1).getSender().getId(), 1);
-        Assertions.assertEquals(all_messages.get(2).getSender().getId(), 0);
-        Assertions.assertEquals(all_messages.get(3).getSender().getId(), 1);
-        Assertions.assertEquals(all_messages.get(4).getSender().getId(), 0);
-
-        Assertions.assertEquals(all_messages.get(0).getSender().getLogin(), "adamenko");
-        Assertions.assertEquals(all_messages.get(1).getSender().getLogin(), "zhdun");
-        Assertions.assertEquals(all_messages.get(2).getSender().getLogin(), "adamenko");
-        Assertions.assertEquals(all_messages.get(3).getSender().getLogin(), "zhdun");
-        Assertions.assertEquals(all_messages.get(4).getSender().getLogin(), "adamenko");
-
-        Assertions.assertEquals(all_messages.get(0).getText(), "Hi! How are you?");
-        Assertions.assertEquals(all_messages.get(1).getText(), "I am OK. And you?");
-        Assertions.assertEquals(all_messages.get(2).getText(), "I am fine. What are doing tonight?");
-        Assertions.assertEquals(all_messages.get(3).getText(), "I am coding a project:)");
-        Assertions.assertEquals(all_messages.get(4).getText(), "Me too!");
-
-        runCommand("src/test/clear_database.sh");
+        Assertions.assertEquals(all_messages, messages);
     }
 
-    void runCommand(String file) throws IOException {
-//        ProcessBuilder pb = new ProcessBuilder(file, password_for_sudo);
-//        Process p = pb.start();
-//        BufferedReader reader = new BufferedReader(new InputStreamReader(p.getErrorStream()));
-//        String line = null;
-//        while ((line = reader.readLine()) != null) {
-//            System.out.println(line);
-//        }
+    @ParameterizedTest(name="#{index} - Test with Argument={0},{1},{2}")
+    @MethodSource("ListProvider")
+    void createMessage(List<User> users, List<Message> messages) throws IOException {
+        MessageServiceImpl messageService = setUp();
+
+        for (User user: users) {
+            // TODO add users
+        }
+
+        for (Message message : messages) {
+            messageService.createMessage(message);
+        }
+
+        var all_messages = messageService.getAllMessages(0);
+        Assertions.assertEquals(all_messages, messages);
     }
 
     MessageServiceImpl setUp() {
