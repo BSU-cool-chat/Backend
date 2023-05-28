@@ -216,7 +216,7 @@ class MessageServiceImplTest {
         Assertions.assertEquals(all_messages.get(2).getText(), "Re");
         Assertions.assertEquals(all_messages.get(3).getText(), "Pe");
 
-        messageService.createMessage(new Message(12, new User(0, "adamenko", "qwerty", "adamenko", "male", 19, "YSDA 1st year student, BSU 2nd year student, swimmer"), 0, "Me too!", new Date(), new Time(1685135655)));
+        messageService.createMessage(new Message(12, new User(0, "adamenko", "qwerty", false, "adamenko", "male", 19, "YSDA 1st year student, BSU 2nd year student, swimmer"), 0, "Me too!", new Date(), new Time(1685135655)));
 
         all_messages = messageService.getAllMessages(0);
         Assertions.assertEquals(all_messages.size(), 5);

@@ -2,7 +2,8 @@ CREATE TABLE IF NOT EXISTS users
 (
     id       SERIAL PRIMARY KEY NOT NULL,
     login    varchar            NOT NULL,
-    password varchar            NOT NULL
+    password varchar            NOT NULL,
+    is_root  boolean            NOT NULL
 );
 
 

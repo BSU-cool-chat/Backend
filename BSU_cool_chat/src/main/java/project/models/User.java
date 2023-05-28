@@ -12,6 +12,7 @@ public class User {
     @NotEmpty(message = "Password should not be empty")
     @Size(min = 2, max = 30, message = "Password should be between 2 and 30 characters")
     private String password;
+    private boolean isRoot;
     private String name;
     private String sex;
     private Integer age;
@@ -21,11 +22,12 @@ public class User {
 
     }
 
-    public User(int id, String login, String password,
+    public User(int id, String login, String password, boolean isRoot,
                 String name, String sex, Integer age, String additionalInfo) {
         this.id = id;
         this.login = login;
         this.password = password;
+        this.isRoot = isRoot;
         this.name = name;
         this.sex = sex;
         this.age = age;
@@ -54,6 +56,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isRoot() {
+        return isRoot;
+    }
+
+    public void setRoot(boolean root) {
+        isRoot = root;
     }
 
     public String getName() {
@@ -89,6 +99,6 @@ public class User {
     }
 
     public UserInfo getUserInfo() {
-        return new UserInfo(id, login, name, sex, age, additionalInfo);
+        return new UserInfo(id, login, isRoot, name, sex, age, additionalInfo);
     }
 }

@@ -31,6 +31,12 @@
                 th:action="@{/users/__${user_id}__/modify}">
             <input class="button" type="submit" value="Edit profile"/><br>
         </form>
+        <form
+                th:if="${isRoot}"
+                th:method="POST"
+                th:action="@{/users/__${user_id}__/root_delete/__${supervising_user_info.getId()}__}">
+            <input class="button" type="submit" value="Delete profile"/><br>
+        </form>
     </div>
 </center>
 </body>

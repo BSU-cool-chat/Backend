@@ -29,6 +29,7 @@ public class UsersController {
         model.addAttribute("user_id", user_id);
         try {
             model.addAttribute("supervising_user_info", userService.getUser(another_user_id).getUserInfo());
+            model.addAttribute("isRoot", userService.getUser(user_id).isRoot());
         } catch (UserNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -58,6 +59,13 @@ public class UsersController {
     public String delete(@PathVariable("user_id") int user_id) {
         userService.deleteUser(user_id);
         return "redirect:/enter";
+    }
+
+    @PostMapping("/{root_id}/root_delete/{user_id}")
+    public String rootDelete(@PathVariable("root_id") int root_id,
+                             @PathVariable("user_id") int user_id) {
+        userService.deleteUser(user_id);
+        return "redirect:/chats/" + root_id;
     }
 
     @GetMapping("/new")
