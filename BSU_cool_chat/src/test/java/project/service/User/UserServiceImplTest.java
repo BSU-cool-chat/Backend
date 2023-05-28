@@ -55,9 +55,11 @@ class UserServiceImplTest {
     @MethodSource("ListProvider")
     void createUser(List<User> users) throws IOException, DuplicateLoginException {
         UserServiceImpl userService = setUp();
+
         for (var user: users) {
-            userService.createUser(user);
+              userService.createUser(user);
         }
+
         var all_users = userService.getAllUsers();
         Assertions.assertEquals(all_users, users);
 
