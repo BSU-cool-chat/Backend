@@ -39,7 +39,7 @@ public class UsersController {
     public String newUser(Model model) {
         model.addAttribute("user", new User());
         model.addAttribute("is_login_duplicated", false);
-        SingletonLogger.getInstance().config("New user");
+        SingletonLogger.getInstance().info("new user");
         return "users/new";
     }
 
@@ -52,10 +52,12 @@ public class UsersController {
         }
         try {
             userService.createUser(user);
+            SingletonLogger.getInstance().info("new user");
             return "redirect:/enter";
         } catch (DuplicateLoginException exception) {
             model.addAttribute("user", user);
             model.addAttribute("is_login_duplicated", true);
+            SingletonLogger.getInstance().info("duplication error!");
             return "users/new";
         }
     }
@@ -65,7 +67,7 @@ public class UsersController {
                          Model model) {
         model.addAttribute("user_id", user_id);
         model.addAttribute("searching_user", new User());
-        SingletonLogger.getInstance().config("UserSearch user_id: " + String.valueOf(user_id));
+        SingletonLogger.getInstance().info("user_id: " + String.valueOf(user_id));
         return "users/search";
     }
 
@@ -76,6 +78,7 @@ public class UsersController {
         model.addAttribute("user_id", user_id);
         model.addAttribute("searching_user", new User());
         model.addAttribute("found_users", userService.getAllSimilarUsers(searchingUser.getLogin()));
+        SingletonLogger.getInstance().info("user_id: " + String.valueOf(user_id) + " searching user: " + String.valueOf(searchingUser.getId()));
         return "users/search";
     }
 }
