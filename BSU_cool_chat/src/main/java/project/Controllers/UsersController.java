@@ -54,6 +54,12 @@ public class UsersController {
         return "redirect:/users/" + user_id + "/supervise/" + user_id;
     }
 
+    @PostMapping("/{user_id}/delete")
+    public String delete(@PathVariable("user_id") int user_id) {
+        userService.deleteUser(user_id);
+        return "redirect:/enter";
+    }
+
     @GetMapping("/new")
     public String newUser(Model model) {
         model.addAttribute("user", new User());

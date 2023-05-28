@@ -12,6 +12,7 @@ public interface ChatDAO {
     List<Chat> getAllUsersChats(int user_id);
 
     Chat getChat(int chat_id);
+    void deleteChat(int chat_id);
 
     Chat getOrCreateStandardChat(User user1, User user2);
 

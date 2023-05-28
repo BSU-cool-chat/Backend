@@ -30,10 +30,6 @@ class ChatServiceImplTest {
 //    @DisplayName("Test")
 //    @Parameterized.Parameters
     void getAllUsersChats() throws IOException {
-        runCommand("src/test/empty_database.sh");
-        runCommand("src/test/add_users.sh");
-        runCommand("src/test/add_messages.sh");
-
         ChatServiceImpl chatService = setUp();
 
         var all_chats = chatService.getAllUserChats(0);

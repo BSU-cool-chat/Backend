@@ -56,6 +56,10 @@
             <br>
             <input class="button" type="submit" value="Save"/><br>
         </form>
+        <br>
+        <form th:method="POST" th:action="@{/users/__${user_id}__/delete}">
+            <input class="button" type="submit" value="Delete profile"/><br>
+        </form>
     </div>
 </center>
 </body>
