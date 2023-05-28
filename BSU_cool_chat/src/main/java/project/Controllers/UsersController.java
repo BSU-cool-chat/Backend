@@ -35,6 +35,25 @@ public class UsersController {
         return "users/show";
     }
 
+    @GetMapping("/{user_id}/modify")
+    public String modifyPage(@PathVariable("user_id") int user_id,
+                       Model model) {
+        model.addAttribute("user_id", user_id);
+        try {
+            model.addAttribute("user", userService.getUser(user_id));
+        } catch (UserNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return "users/modify";
+    }
+
+    @PostMapping("/{user_id}/modify")
+    public String modify(@PathVariable("user_id") int user_id,
+                         @ModelAttribute("user") User user) {
+        userService.updateUser(user);
+        return "redirect:/users/" + user_id + "/supervise/" + user_id;
+    }
+
     @GetMapping("/new")
     public String newUser(Model model) {
         model.addAttribute("user", new User());

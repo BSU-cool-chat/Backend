@@ -59,7 +59,14 @@ public class UserDAOImpl implements UserDAO {
     }
 
     public void updateUser(User user) {
-        throw new RuntimeException("no such method implementation");
+        jdbcTemplate.update("""
+                UPDATE users_info
+                SET name = ?,
+                    sex = ?,
+                    age = ?,
+                    additional_info = ?
+                WHERE user_id = ?;
+                """, user.getName(), user.getSex(), user.getAge(), user.getAdditionalInfo(), user.getId());
     }
 
     public User getUser(int id) throws UserNotFoundException {

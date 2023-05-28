@@ -25,12 +25,12 @@
                 th:action="@{${supervising_user_info.getChatLink('__${user_id}__')}}">
             <input class="button" type="submit" value="Write message"/><br>
         </form>
-<!--        <form-->
-<!--                th:if="${user_id} == ${supervising_user_info.getId()}"-->
-<!--                th:method="GET"-->
-<!--                th:action="todo">-->
-<!--            <input class="button" type="submit" value="Edit profile"/><br>-->
-<!--        </form>-->
+        <form
+                th:if="${user_id} == ${supervising_user_info.getId()}"
+                th:method="GET"
+                th:action="@{/users/__${user_id}__/modify}">
+            <input class="button" type="submit" value="Edit profile"/><br>
+        </form>
     </div>
 </center>
 </body>
