@@ -7,6 +7,7 @@ import project.Exceptions.DuplicateLoginException;
 import project.Exceptions.UserNotFoundException;
 import project.dao.Chat.ChatDAO;
 import project.dao.User.UserDAO;
+import project.models.Chat;
 import project.models.User;
 
 import java.util.List;
@@ -38,6 +39,11 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void deleteUser(int id) {
+        for (Chat chat : chatDAO.getAllUsersChats(id)) {
+            if (!chat.isGroupChat()) {
+                chatDAO.deleteChat(chat.getId());
+            }
+        }
         userDAO.deleteUser(id);
     }
 
