@@ -25,9 +25,13 @@
 |:--:| 
 | *Диаграмма классов* |
 
-| ![space-1.jpg](https://github.com/BSU-cool-chat/Backend/blob/main/documents/Package_Diagram.png) | 
+| ![space-1.jpg](https://github.com/BSU-cool-chat/Backend/blob/main/documents/Components_Diagram.png) | 
 |:--:| 
 | *Диаграмма пакетов* |
+
+| ![space-1.jpg](https://github.com/BSU-cool-chat/Backend/blob/main/documents/Package_Diagram.png) | 
+|:--:| 
+| *Диаграмма компонентов* |
 
 | ![space-1.jpg](https://github.com/BSU-cool-chat/Backend/blob/main/documents/Deployment_Diagram.png) | 
 |:--:| 
