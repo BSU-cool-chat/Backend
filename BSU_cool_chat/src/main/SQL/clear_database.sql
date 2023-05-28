@@ -1,0 +1,1 @@
+DROP DATABASE IF EXISTS bsu_cool_chat_db;
