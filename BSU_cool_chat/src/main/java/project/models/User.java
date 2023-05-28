@@ -3,8 +3,6 @@ package project.models;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
-import java.util.Objects;
-
 public class User {
     private int id;
     @NotEmpty(message = "Login should not be empty")
@@ -22,22 +20,6 @@ public class User {
 
     public User() {
 
-    }
-
-    public String toString() {
-        return "id : " + id + "\nlogin: " + login + "\n";
-    }
-
-    public int hashCode() {
-        return id;
-    }
-
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null) return false;
-        if (this.getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return id == user.id && Objects.equals(login, user.login) && Objects.equals(password, user.password);
     }
 
     public User(int id, String login, String password, boolean isRoot,
