@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/css/user.css}">
+</head>
+<body>
+<div class="options">
+    <form class="form" th:method="GET" th:action="@{/users/__${user_id}__/supervise/__${user_id}__}">
+        <input class="navigation_button" type="submit" value="Back to profile"/>
+    </form>
+</div>
+<center>
+    <div class="info">
+        <div class="greeting">
+            <h2 th:text="${user.getLogin()}">Login</h2>
+        </div>
+        <img th:src="@{/static/images/image.png}" class="avatar"/>
+        <br>
+        <form th:method="POST" th:action="@{/users/__${user_id}__/modify}" th:object="${user}">
+            <input type="hidden" th:value="${user.getId()}" name="id"/>
+            <input type="hidden" th:value="${user.getLogin()}" name="login"/>
+            <input type="hidden" th:value="${user.getPassword()}" name="password"/>
+            <input
+                    type="text"
+                    maxlength="30"
+                    placeholder="Name"
+                    name="name"
+                    th:field="*{name}"
+                    autocomplete="off"/>
+            <br>
+            <input
+                    type="text"
+                    maxlength="30"
+                    placeholder="Sex"
+                    name="sex"
+                    th:field="*{sex}"
+                    autocomplete="off"/>
+            <br>
+            <input
+                    type="number"
+                    min="0"
+                    placeholder="Age"
+                    name="age"
+                    th:field="*{age}"
+                    autocomplete="off"/>
+            <br>
+            <input
+                    type="text"
+                    maxlength="100"
+                    placeholder="Additional info"
+                    name="additionalInfo"
+                    th:field="*{additionalInfo}"
+                    autocomplete="off"/>
+            <br>
+            <input class="button" type="submit" value="Save"/><br>
+        </form>
+    </div>
+</center>
+</body>
+</html>
