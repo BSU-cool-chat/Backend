@@ -49,7 +49,7 @@ public class User {
         if (o == null) return false;
         if (this.getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id == user.id && Objects.equals(login, user.login) && Objects.equals(password, user.password);
+        return Objects.equals(login, user.login);
     }
 
 
