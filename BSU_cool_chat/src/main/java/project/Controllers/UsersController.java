@@ -26,6 +26,7 @@ public class UsersController {
     public String show(@PathVariable("user_id") int user_id,
                        @PathVariable("another_user_id") int another_user_id,
                        Model model) {
+        SingletonLogger.getInstance().info("user_id: " + user_id + "another_user_id: " + another_user_id);
         model.addAttribute("user_id", user_id);
         try {
             model.addAttribute("supervising_user_info", userService.getUser(another_user_id).getUserInfo());
@@ -39,6 +40,7 @@ public class UsersController {
     @GetMapping("/{user_id}/modify")
     public String modifyPage(@PathVariable("user_id") int user_id,
                        Model model) {
+        SingletonLogger.getInstance().info("user_id: " + user_id);
         model.addAttribute("user_id", user_id);
         try {
             model.addAttribute("user", userService.getUser(user_id));
@@ -52,12 +54,14 @@ public class UsersController {
     public String modify(@PathVariable("user_id") int user_id,
                          @ModelAttribute("user") User user) {
         userService.updateUser(user);
+        SingletonLogger.getInstance().info("modify user_id: " + user_id);
         return "redirect:/users/" + user_id + "/supervise/" + user_id;
     }
 
     @PostMapping("/{user_id}/delete")
     public String delete(@PathVariable("user_id") int user_id) {
         userService.deleteUser(user_id);
+        SingletonLogger.getInstance().info("delete user_id: " + user_id);
         return "redirect:/enter";
     }
 
@@ -65,6 +69,7 @@ public class UsersController {
     public String rootDelete(@PathVariable("root_id") int root_id,
                              @PathVariable("user_id") int user_id) {
         userService.deleteUser(user_id);
+        SingletonLogger.getInstance().info("root delete");
         return "redirect:/chats/" + root_id;
     }
 
