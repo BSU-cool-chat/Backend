@@ -19,18 +19,13 @@ public class Chat {
     public String toString() {
         StringBuilder answer = new StringBuilder("id: " + id + "\n" + "name: " + name + "\n" + "isGroupChat: " + isGroupChat + "\n" + "members: " + "\n");
         if (members != null) {
-            for (int i = 0; i < members.size(); ++i) {
-                answer.append(i).append(": ").append(members.get(i).toString()).append("\n");
-            }
-            answer.append("\n");
+            answer.append(members.toString());
         }
 
         answer.append("messages: \n");
 
         if (messages != null) {
-            for (int i = 0; i < messages.size(); ++i) {
-                answer.append(i).append(": ").append(messages.get(i).toString()).append("\n");
-            }
+            answer.append(messages.toString());
         }
 
         return answer.toString();
