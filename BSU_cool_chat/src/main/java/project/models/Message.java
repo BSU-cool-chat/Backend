@@ -36,8 +36,7 @@ public class Message {
         if (o == null) return false;
         if (this.getClass() != o.getClass()) return false;
         Message message = (Message) o;
-        return id == message.id && chatId == message.chatId && Objects.equals(sender, message.sender) && Objects.equals(text, message.text)
-                && Objects.equals(dispatchDate, message.dispatchDate) && Objects.equals(dispatchTime, message.dispatchTime);
+        return id == message.id;
     }
 
     public Message() {
