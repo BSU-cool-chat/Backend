@@ -18,14 +18,19 @@ public class Chat {
 
     public String toString() {
         StringBuilder answer = new StringBuilder("id: " + id + "\n" + "name: " + name + "\n" + "isGroupChat: " + isGroupChat + "\n" + "members: " + "\n");
-        for (int i = 0; i < members.size(); ++i) {
-            answer.append(i).append(": ").append(members.get(i).toString()).append("\n");
+        if (members != null) {
+            for (int i = 0; i < members.size(); ++i) {
+                answer.append(i).append(": ").append(members.get(i).toString()).append("\n");
+            }
+            answer.append("\n");
         }
-        answer.append("\n");
+
         answer.append("messages: \n");
 
-        for (int i = 0; i < messages.size(); ++i) {
-            answer.append(i).append(": ").append(messages.get(i).toString()).append("\n");
+        if (messages != null) {
+            for (int i = 0; i < messages.size(); ++i) {
+                answer.append(i).append(": ").append(messages.get(i).toString()).append("\n");
+            }
         }
 
         return answer.toString();
@@ -40,7 +45,7 @@ public class Chat {
         if (o == null) return false;
         if (this.getClass() != o.getClass()) return false;
         Chat info = (Chat) o;
-        return id == info.id && Objects.equals(name, info.name);
+        return id == info.id;
     }
 
     public int getId() {

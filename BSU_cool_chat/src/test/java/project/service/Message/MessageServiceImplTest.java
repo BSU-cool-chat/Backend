@@ -16,6 +16,8 @@ import project.models.Message;
 import project.models.User;
 import project.service.Chat.ChatServiceImpl;
 import project.service.User.UserServiceImpl;
+import project.utils.Pair;
+import project.utils.Services;
 
 import java.util.*;
 
@@ -60,12 +62,10 @@ class MessageServiceImplTest {
         );
     }
 
-//    new Chat(0, "Chat between adamenko and zhdun", false)),
-//            new Chat(1, "Chat between adamenko and adamada", false)
 
     @ParameterizedTest(name = "#{index} - Test with Argument={0},{1},{2}")
     @MethodSource("ListProvider")
-    void getAllMessages(List<User> users, List<Message> messages, List<Pair<Integer, Integer>> chats) throws IOException, DuplicateLoginException {
+    void getAllMessagesAndCreateChat(List<User> users, List<Message> messages, List<Pair<Integer, Integer>> chats) throws IOException, DuplicateLoginException {
         Services services = setUp();
 
         for (User user : users) {
@@ -85,18 +85,6 @@ class MessageServiceImplTest {
             all_messages.addAll(services.messageService.getAllMessages(i));
         }
         Assertions.assertEquals(all_messages, messages);
-    }
-
-    static class Services {
-        public MessageServiceImpl messageService;
-        public UserServiceImpl userService;
-        public ChatServiceImpl chatService;
-
-        public Services(MessageServiceImpl service0, UserServiceImpl service1, ChatServiceImpl service2) {
-            messageService = service0;
-            userService = service1;
-            chatService = service2;
-        }
     }
 
     Services setUp() {
@@ -119,37 +107,3 @@ class MessageServiceImplTest {
     }
 }
 
-class Pair<L, R> {
-
-    private final L left;
-    private final R right;
-
-    public Pair(L left, R right) {
-        assert left != null;
-        assert right != null;
-
-        this.left = left;
-        this.right = right;
-    }
-
-    public L getLeft() {
-        return left;
-    }
-
-    public R getRight() {
-        return right;
-    }
-
-    @Override
-    public int hashCode() {
-        return left.hashCode() ^ right.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof Pair pairo)) return false;
-        return this.left.equals(pairo.getLeft()) &&
-                this.right.equals(pairo.getRight());
-    }
-
-}
