@@ -23,7 +23,7 @@
 
 | ![space-1.jpg](https://github.com/BSU-cool-chat/Backend/blob/main/documents/UserCaseDiagram.jpg) | 
 |:--:| 
-| *UseCase diagram* |
+| *UseCase диаграмма* |
 
 | ![space-1.jpg](https://github.com/BSU-cool-chat/Backend/blob/main/documents/ClassDiagram.png) | 
 |:--:| 
