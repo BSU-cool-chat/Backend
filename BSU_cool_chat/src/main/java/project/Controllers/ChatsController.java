@@ -38,7 +38,7 @@ public class ChatsController {
         model.addAttribute("chats_info", chat);
         model.addAttribute("id", user_id);
         SingletonLogger.getInstance().info("displayAllUsersChats " + " user_id: " + String.valueOf(user_id));
-        return "users/chats";
+        return "users/chats.html";
     }
 
     @GetMapping("/chats/{user_id}/chat/{chat_id}")
@@ -50,7 +50,7 @@ public class ChatsController {
         model.addAttribute("chat_id", chat_id);
         model.addAttribute("message", new Message());
         SingletonLogger.getInstance().info("displayUsersChats chat_id: " + String.valueOf(chat_id) + " user_id: " + String.valueOf(user_id));
-        return "users/chat";
+        return "users/chat.html";
     }
 
     @PostMapping("/chats/{user_id}/new_standard_chat/{another_user_id}")

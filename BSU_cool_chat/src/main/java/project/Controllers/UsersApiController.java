@@ -2,22 +2,12 @@ package project.Controllers;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import project.Exceptions.DuplicateLoginException;
 import project.Exceptions.UserNotFoundException;
-import project.service.User.UserService;
 import project.models.User;
-
-import java.util.List;
-
+import project.service.User.UserService;
 
 @RestController
 @RequestMapping("/api/users")
@@ -27,6 +17,11 @@ public class UsersApiController {
     @Autowired
     public UsersApiController(UserService userService) {
         this.userService = userService;
+    }
+
+    @GetMapping("/docs")
+    public String documentation(){
+        return "users/swagger.yaml";
     }
 
     @GetMapping

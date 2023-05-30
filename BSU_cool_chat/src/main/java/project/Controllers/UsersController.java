@@ -34,7 +34,7 @@ public class UsersController {
         } catch (UserNotFoundException e) {
             throw new RuntimeException(e);
         }
-        return "users/show";
+        return "users/show.html";
     }
 
     @GetMapping("/{user_id}/modify")
@@ -47,7 +47,7 @@ public class UsersController {
         } catch (UserNotFoundException e) {
             throw new RuntimeException(e);
         }
-        return "users/modify";
+        return "users/modify.html";
     }
 
     @PostMapping("/{user_id}/modify")
@@ -78,7 +78,7 @@ public class UsersController {
         model.addAttribute("user", new User());
         model.addAttribute("is_login_duplicated", false);
         SingletonLogger.getInstance().info("new user");
-        return "users/new";
+        return "users/new.html";
     }
 
     @PostMapping("/create_new_user")
@@ -86,7 +86,7 @@ public class UsersController {
                          BindingResult bindingResult,
                          Model model) {
         if (bindingResult.hasErrors()) {
-            return "users/new";
+            return "users/new.html";
         }
         try {
             userService.createUser(user);
@@ -96,7 +96,7 @@ public class UsersController {
             model.addAttribute("user", user);
             model.addAttribute("is_login_duplicated", true);
             SingletonLogger.getInstance().info("duplication error!");
-            return "users/new";
+            return "users/new.html";
         }
     }
 
@@ -106,7 +106,7 @@ public class UsersController {
         model.addAttribute("user_id", user_id);
         model.addAttribute("searching_user", new User());
         SingletonLogger.getInstance().info("user_id: " + String.valueOf(user_id));
-        return "users/search";
+        return "users/search.html";
     }
 
     @GetMapping("/{user_id}/search")
@@ -117,6 +117,6 @@ public class UsersController {
         model.addAttribute("searching_user", new User());
         model.addAttribute("found_users", userService.getAllSimilarUsers(searchingUser.getLogin()));
         SingletonLogger.getInstance().info("user_id: " + String.valueOf(user_id) + " searching user: " + String.valueOf(searchingUser.getId()));
-        return "users/search";
+        return "users/search.html";
     }
 }
