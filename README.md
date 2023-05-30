@@ -21,6 +21,10 @@
 | Совместная работа с документацией | Microsoft Teams |
 | Диаграмма Ганта | Microsoft Excel |
 
+| ![space-1.jpg](https://github.com/BSU-cool-chat/Backend/blob/main/documents/UserCaseDiagram.jpg) | 
+|:--:| 
+| *UseCase diagram* |
+
 | ![space-1.jpg](https://github.com/BSU-cool-chat/Backend/blob/main/documents/ClassDiagram.png) | 
 |:--:| 
 | *Диаграмма классов* |
