@@ -1,0 +1,161 @@
+swagger: '2.0'
+info:
+  title: USERS API
+  description: >
+    BSU cool chat docs.
+  version: 1.0.0
+schemes:
+  - https
+host: localhost:8080
+basePath: /api/v1/users
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /:
+    post:
+      operationId: createUser
+      summary: add User
+      description: >
+        This API is used to add users.
+      tags:
+        - Users requests
+      parameters:
+        - in: body
+          name: user_details
+          description: The details of the new user to be registered.
+          schema:
+            $ref: '#/definitions/UserDetails'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+    get:
+      operationId: getUser
+      summary: get User
+      tags:
+        - Users requests
+      parameters:
+        - in: body
+          name: Id
+          schema:
+            $ref: '#/definitions/Id'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+    delete:
+      operationId: deleteUser
+      summary: delete User
+      tags:
+        - Users requests
+      parameters:
+        - in: body
+          name: Id
+          schema:
+            $ref: '#/definitions/Id'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+    put:
+      operationId: updateUser
+      summary: update User
+      tags:
+        - Users requests
+      parameters:
+        - in: body
+          name: User
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+  /index:
+    get:
+      operationId: getAllUSers
+      summary: Get all users
+      tags:
+        - Users requests
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+definitions:
+  Success:
+    properties:
+      login:
+        type: string
+        description: Successful operation.
+        example: "TestUser"
+      password:
+        type: string
+        description: Successful operation.
+        example: "some_password"
+    required:
+      - memberID
+  Error:
+    properties:
+      error:
+        type: string
+        description: Invalid input.
+        example: ""
+    required:
+      - error
+  UserDetails:
+    type: array
+    items:
+      type: object
+      required:
+        - login
+        - password
+      properties:
+        login:
+          type: string
+          example: Admin
+        password:
+          type: string
+          example: 1111
+  Id:
+    type: object
+    required:
+      - id
+    properties:
+      id:
+        type: integer
+        example: 1
+  User:
+    type: object
+    required:
+      - login
+      - password
+      - name
+      - sex
+      - age
+      - additional_info
+    properties:
+      login:
+        type: string
+        example: Admin
+      password: 
+        type: string
+        example: 1111
+      name:
+        type: string
+        example: Alex
+      sex:
+        type: string
+        example: male
+      age:
+        type: integer
+        example: 18
+      additional_info:
+        type: string
+        example: some info

@@ -25,7 +25,7 @@ public class RegisterController {
         model.addAttribute("user", new User());
         model.addAttribute("is_login_mistake_occur", false);
         SingletonLogger.getInstance().info("GreetingPage");
-        return "registration/login_page";
+        return "registration/login_page.html";
     }
 
     @PostMapping("/log_in")
@@ -37,7 +37,7 @@ public class RegisterController {
             model.addAttribute("user", user);
             model.addAttribute("is_login_mistake_occur", true);
             SingletonLogger.getInstance().info("user_id: " + String.valueOf(user.getId()));
-            return "registration/login_page";
+            return "registration/login_page.html";
         }
         SingletonLogger.getInstance().info("user_id: " + String.valueOf(user.getId()));
         return "redirect:/chats/" + id.get();
